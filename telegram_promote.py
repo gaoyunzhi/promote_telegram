@@ -18,10 +18,11 @@ with open('settings') as f:
     settings = yaml.load(f, Loader=yaml.FullLoader)
 
 def shouldSend(messages):
-    print(datetime.timestamp(messages[0].date))
-    print(time.time())
+    if time.time() - datetime.timestamp(messages[0].date) < 30 * 60:
+        return False # 不打断现有对话
     for message in messages:
-        ...
+        print(message.from_id)
+        print(message.from)
     return False
 
 
