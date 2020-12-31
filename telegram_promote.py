@@ -12,7 +12,7 @@ import time
 existing = plain_db.load('existing')
 last_send = {}
 
-for key, value in existing.items:
+for key, value in existing.items.items():
     target = int(key.split('_')[0])
     last_send[target] = max(last_send.get(target, 0), value)
 
@@ -52,8 +52,7 @@ def getHash(target, post):
 
 def getDialog(dialogs, group):
     for dialog in dialogs:
-        print(getPeerId(dialog.peer_id))
-        if getPeerId(dialog.peer_id) == group.id:
+        if dialog.entity.id == group.id:
             return dialog
 
 async def process(client):
@@ -86,7 +85,7 @@ async def process(client):
                 if existing.get(item_hash):
                     continue
                 dialog = getDialog(dialogs, group)
-                await client.forward_messages(dialog, post)
+                await client.forward_messages(group, post.id, channel)
                 existing.update(item_hash, int(time.time()))
                 return
 
