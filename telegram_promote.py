@@ -6,6 +6,8 @@ from telethon.tl.functions.messages import GetHistoryRequest
 import yaml
 import asyncio
 import plain_db
+from datetime import datetime
+import time
 
 existing = plain_db.loadKeyOnlyDB('existing')
 
@@ -15,21 +17,27 @@ with open('credential') as f:
 with open('settings') as f:
     settings = yaml.load(f, Loader=yaml.FullLoader)
 
+def shouldSend(messages):
+    print(datetime.timestamp(messages[0].date))
+    print(time.time())
+    for message in messages:
+        ...
+    return False
+
+
 async def run():
     client = TelegramClient('session_file', credential['api_id'], credential['api_hash'])
     await client.start(password=credential['password'])
-    dialogs = await client.get_dialogs()
-    for dialog in dialogs:
-        if dialog.name.startswith('中国自由'):
-            print(dialog)
 
     for target in settings:
         target = target.split('(')[0]
-        channel_entity=await client.get_entity(target)
-        print('channel_entity', channel_entity, channel_entity.id)
-        posts = await client(GetHistoryRequest(peer=channel_entity, limit=10,
+        group=await client.get_entity(int(target))
+        print('group', group, group.id)
+        posts = await client(GetHistoryRequest(peer=group, limit=10,
             offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
-        print('posts', posts)
+        
+        if not shouldSend(posts.messages):
+            continue
         print('posts.messages[0]', posts.messages[0])
 
     await client.disconnect()
