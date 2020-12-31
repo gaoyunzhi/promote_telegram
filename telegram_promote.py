@@ -47,6 +47,8 @@ def getPeerId(peer_id):
         except:
             ...
 
+# need to do dedup
+# also, don't send the same message at the same time
 def getHash(target, post):
     return '%s_%d_%d' % (str(target), getPeerId(post.peer_id), post.id)
 
@@ -85,6 +87,7 @@ async def process(client):
                 if existing.get(item_hash):
                     continue
                 dialog = getDialog(dialogs, group)
+                # TODO: see if change dialog.entity to group is ok
                 await client.forward_messages(group, post.id, channel)
                 existing.update(item_hash, int(time.time()))
                 return
