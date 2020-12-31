@@ -40,15 +40,24 @@ def getTarget(target):
         return target
 
 def getPeerId(peer_id):
-    try:
-        return peer_id.channel_id
-    except:
-        return peer_id.user_id
+    for method in [lambda x: x.channel_id, 
+        lambda x: x.chat_id, lambda x: x.user_id]:
+        try:
+            return method(peer_id)
+        except:
+            ...
 
 def getHash(target, post):
     return '%s_%d_%d' % (str(target), getPeerId(post.peer_id), post.id)
 
+def getDialog(dialogs, group):
+    for dialog in dialogs:
+        if getPeerId(dialog.peer_id) == group.id:
+            return dialog
+
 async def process(client):
+    dialogs = await client.get_dialogs()
+
     for target, setting in settings.items():
         target = getTarget(target)
         if time.time() - last_send.get(target, 0) < 48 * 60 * 60: # start with 48 hour, see if I can change this to 5 hour
@@ -75,8 +84,8 @@ async def process(client):
                 item_hash = getHash(target, post)
                 if existing.get(item_hash):
                     continue
-
-                await client.forward_messages(group, post)
+                dialog = getDialog(dialogs, group)
+                await client.forward_messages(dialog, post)
                 existing.update(item_hash, int(time.time()))
                 return
 
