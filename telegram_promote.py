@@ -56,7 +56,7 @@ async def process(client):
 
         group =  await client.get_entity(target)
 
-        print('group', group, group.title)
+        print('group', group.title)
         
         posts = await client(GetHistoryRequest(peer=group, limit=10,
             offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
@@ -73,9 +73,11 @@ async def process(client):
                 if time.time() - datetime.timestamp(post.date) < 5 * 60 * 60:
                     continue
                 item_hash = getHash(target, post)
-                print(item_hash)
                 if existing.get(item_hash):
                     continue
+
+                await client.forward_messages(target, post)
+                existing.update(item_hash, int(time.time()))
                 return
 
 async def run():
