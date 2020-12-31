@@ -76,7 +76,7 @@ async def process(client):
                 if existing.get(item_hash):
                     continue
 
-                await client.forward_messages(target, post)
+                await client.forward_messages(group, post)
                 existing.update(item_hash, int(time.time()))
                 return
 
