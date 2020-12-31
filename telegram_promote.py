@@ -39,6 +39,15 @@ def getTarget(target):
     except:
         return target
 
+def getPeerId(peer_id):
+    try:
+        return peer_id.channel_id
+    except:
+        return peer_id.user_id
+
+def getHash(target, post):
+    return '%s_%d_%d' % (str(target), getPeerId(post.peer_id), post.id)
+
 async def process(client):
     for target, setting in settings.items():
         target = getTarget(target)
@@ -47,7 +56,7 @@ async def process(client):
 
         group =  await client.get_entity(target)
 
-        print('group', group.title)
+        print('group', group, group.title)
         
         posts = await client(GetHistoryRequest(peer=group, limit=10,
             offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
@@ -63,7 +72,10 @@ async def process(client):
             for post in posts.messages[::-1]:
                 if time.time() - datetime.timestamp(post.date) < 5 * 60 * 60:
                     continue
-                print(post)
+                item_hash = getHash(target, post)
+                print(item_hash)
+                if existing.get(item_hash):
+                    continue
                 return
 
 async def run():
