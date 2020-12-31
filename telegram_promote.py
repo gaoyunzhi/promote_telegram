@@ -12,7 +12,7 @@ import time
 existing = plain_db.load('existing')
 last_send = {}
 
-for key, value in existing.items():
+for key, value in existing.items:
     target = int(key.split('_')[0])
     last_send[target] = max(last_send.get(target, 0), value)
 
@@ -47,7 +47,7 @@ async def process(client):
 
         group =  await client.get_entity(target)
 
-        print('group', group.name)
+        print('group', group.title)
         
         posts = await client(GetHistoryRequest(peer=group, limit=10,
             offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
@@ -60,7 +60,7 @@ async def process(client):
             channel =  await client.get_entity(subscription)
             posts = await client(GetHistoryRequest(peer=channel, limit=20,
                 offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
-            for post in posts.messgaes[::-1]:
+            for post in posts.messages[::-1]:
                 if time.time() - datetime.timestamp(post.date) < 5 * 60 * 60:
                     continue
                 print(post)
