@@ -40,4 +40,7 @@ def run():
 	...
 
 if __name__ == "__main__":
-	run()
+	loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    r = loop.run_until_complete(run())
+    loop.close()
