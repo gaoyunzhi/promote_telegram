@@ -52,6 +52,7 @@ def getHash(target, post):
 
 def getDialog(dialogs, group):
     for dialog in dialogs:
+        print(getPeerId(dialog.peer_id))
         if getPeerId(dialog.peer_id) == group.id:
             return dialog
 
