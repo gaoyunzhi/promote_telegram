@@ -39,16 +39,13 @@ def getTarget(target):
     except:
         return target
 
-async def run():
-    client = TelegramClient('session_file', credential['api_id'], credential['api_hash'])
-    await client.start(password=credential['password'])
-
+async def process(client):
     for target, setting in settings.items():
         target = getTarget(target)
         if time.time() - last_send.get(target, 0) < 48 * 60 * 60: # start with 48 hour, see if I can change this to 5 hour
             continue
 
-        group=await client.get_entity(target)
+        group =  await client.get_entity(target)
 
         print('group', group.name)
         
@@ -58,8 +55,22 @@ async def run():
         if not shouldSend(posts.messages):
             continue
 
-        setting['subscriptions']
-        
+        for subscription in setting['subscriptions']:
+            subscription = getTarget(subscription)
+            channel =  await client.get_entity(subscription)
+            posts = await client(GetHistoryRequest(peer=channel, limit=20,
+                offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
+            for post in posts.messgaes[::-1]:
+                if time.time() - datetime.timestamp(post.date) < 5 * 60 * 60:
+                    continue
+                print(post)
+                return
+
+async def run():
+    client = TelegramClient('session_file', credential['api_id'], credential['api_hash'])
+    await client.start(password=credential['password'])
+
+    await process(client)
 
     await client.disconnect()
 
