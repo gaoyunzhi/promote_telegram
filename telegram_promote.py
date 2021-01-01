@@ -54,6 +54,9 @@ def getPeerId(peer_id):
             ...
 
 def getMessageHash(post):
+    if post.fwd_from:
+        return '%d_%s' % (getPeerId(post.fwd_from.from_id), 
+            str(post.fwd_from.channel_post))
     return '%d_%d' % (getPeerId(post.peer_id), post.id)
 
 def getHash(target, post):
@@ -66,7 +69,8 @@ async def process(client):
             channel =  await client.get_entity(subscription)
             posts = await client(GetHistoryRequest(peer=channel, limit=20,
                 offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
-            print(posts)
+            for post in posts.messages:
+                print(getMessageHash(post))
     # dialogs = await client.get_dialogs() # this may not be needed
 
     for target, setting in settings.items():
