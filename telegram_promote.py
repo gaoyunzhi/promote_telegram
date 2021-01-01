@@ -66,12 +66,13 @@ def getHash(target, post):
 async def process(client):
     # dialogs = await client.get_dialogs() # this may not be needed
 
-    for target, setting in settings.items():
+    for target, setting in settings['groups'].items():
         target = getTarget(target)
         if time.time() - group_log.get(str(target), 0) < 48 * 60 * 60: # start with 48 hour, see if I can change this to 5 hour
             continue
 
         group =  await client.get_entity(target)
+        print(group.id, group.title)
         
         posts = await client(GetHistoryRequest(peer=group, limit=10,
             offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
@@ -95,9 +96,7 @@ async def process(client):
                 await client.forward_messages(group, post.id, channel)
                 existing.update(item_hash, int(time.time()))
                 return
-
-        messages = setting.get('promote_messages')
-        if not messages:
+        if not settings.get('promote_messages'):
             continue
         message = messages[message_loop.get('promote_messages', 0) % len(messages)]
         await client.send_message(group, message)
