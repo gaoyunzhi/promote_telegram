@@ -36,9 +36,11 @@ def shouldSend(messages):
             return False # 不打断现有对话
     if time.time() - datetime.timestamp(messages[0].date) > 48 * 60 * 60:
         return True
+    print('here')
     for message in messages:
         if message.from_id and message.from_id.user_id == credential['user_id']:
             return False
+    print('here1')
     return True
 
 def getTarget(target):
