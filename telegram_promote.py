@@ -75,10 +75,10 @@ async def process(client):
         posts = await client(GetHistoryRequest(peer=group, limit=10,
             offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
         
-        if target != 1199060777 and (not shouldSend(posts.messages)):
+        if (not setting.get('debug')) and (not shouldSend(posts.messages)):
             continue
-        if target == 1199060777:
-            print('美国社会与政治 shouldsend', shouldSend(posts.messages))
+        if setting.get('debug'):
+            print(group.id, group.title, 'shouldsend', shouldSend(posts.messages))
 
         for subscription in setting.get('subscriptions', []):
             subscription = getTarget(subscription)
@@ -93,6 +93,7 @@ async def process(client):
                     continue
                 if existing.get(item_hash):
                     continue
+                print(post)
                 await client.forward_messages(group, post.id, channel)
                 existing.update(item_hash, int(time.time()))
                 return
