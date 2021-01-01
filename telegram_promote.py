@@ -63,14 +63,6 @@ def getHash(target, post):
     return '%s_%s' % (str(target), getMessageHash(post))
 
 async def process(client):
-    for target, setting in settings.items():
-        for subscription in setting.get('subscriptions', []):
-            subscription = getTarget(subscription)
-            channel =  await client.get_entity(subscription)
-            posts = await client(GetHistoryRequest(peer=channel, limit=20,
-                offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
-            for post in posts.messages:
-                print(getMessageHash(post))
     # dialogs = await client.get_dialogs() # this may not be needed
 
     for target, setting in settings.items():
