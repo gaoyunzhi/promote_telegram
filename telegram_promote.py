@@ -91,7 +91,6 @@ async def process(client):
         
         if (not setting.get('debug')) and (not shouldSend(posts.messages)):
             continue
-        print('here')
         if setting.get('debug'):
             print(group.id, group.title, 'shouldsend', shouldSend(posts.messages))
 
