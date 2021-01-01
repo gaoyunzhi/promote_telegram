@@ -68,7 +68,7 @@ async def process(client):
 
     for target, setting in settings['groups'].items():
         target = getTarget(target)
-        if time.time() - group_log.get(str(target), 0) < 48 * 60 * 60: # start with 48 hour, see if I can change this to 5 hour
+        if time.time() - group_log.get(str(target), 0) < 5 * 60 * 60: # start with 48 hour, see if I can change this to 5 hour
             continue
 
         group =  await client.get_entity(target)
