@@ -96,12 +96,12 @@ async def process(client):
                 existing.update(item_hash, int(time.time()))
                 return
 
-        messages = setting.get('messages')
+        messages = setting.get('promote_messages')
         if not messages:
             continue
-        message = messages[message_loop.get(str(target), 0) % len(messages)]
+        message = messages[message_loop.get('promote_messages', 0) % len(messages)]
         await client.send_message(group, message)
-        message_loop.inc(target, 1)
+        message_loop.inc('promote_messages', 1)
         return
 
 async def run():
