@@ -64,11 +64,9 @@ def getHash(target, post):
     return '%s=%s' % (str(target), getMessageHash(post))
 
 async def process(client):
-    # dialogs = await client.get_dialogs() # this may not be needed
-
     for target, setting in settings['groups'].items():
         target = getTarget(target)
-        if time.time() - group_log.get(str(target), 0) < 5 * 60 * 60: # start with 48 hour, see if I can change this to 5 hour
+        if time.time() - group_log.get(str(target), 0) < setting.get('gap_hour', 5) * 60 * 60:
             continue
 
         group =  await client.get_entity(target)
@@ -77,8 +75,10 @@ async def process(client):
         posts = await client(GetHistoryRequest(peer=group, limit=10,
             offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
         
-        if not shouldSend(posts.messages):
+        if target != 1199060777 and (not shouldSend(posts.messages)):
             continue
+        if target == 1199060777:
+            print('美国社会与政治 shouldsend', shouldSend(posts.messages))
 
         for subscription in setting.get('subscriptions', []):
             subscription = getTarget(subscription)
