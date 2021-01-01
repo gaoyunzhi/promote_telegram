@@ -12,9 +12,10 @@ import time
 existing = plain_db.load('existing')
 group_log = {}
 message_log = {}
+message_loop = plain_db.load('message_loop')
 
 for key, value in existing.items.items():
-    target = key.split('_')[0]
+    target = key.split('=')[0]
     group_log[target] = max(group_log.get(target, 0), value)
     message = key[len(target) + 1:]
     message_log[message] = max(group_log.get(message, 0), value)
@@ -27,14 +28,14 @@ with open('settings') as f:
 
 def shouldSend(messages):
     for message in messages:
-        if message.from_id.user_id in [521358914]:
+        if message.from_id and message.from_id.user_id in [521358914]:
             continue
         if time.time() - datetime.timestamp(message.date) < 30 * 60:
             return False # 不打断现有对话
     if time.time() - datetime.timestamp(messages[0].date) > 48 * 60 * 60:
         return True
     for message in messages:
-        if message.from_id.user_id == credential['user_id']:
+        if message.from_id and message.from_id.user_id == credential['user_id']:
             return False
     return True
 
@@ -55,12 +56,12 @@ def getPeerId(peer_id):
 
 def getMessageHash(post):
     if post.fwd_from:
-        return '%d_%s' % (getPeerId(post.fwd_from.from_id), 
+        return '%d=%s' % (getPeerId(post.fwd_from.from_id), 
             str(post.fwd_from.channel_post))
-    return '%d_%d' % (getPeerId(post.peer_id), post.id)
+    return '%d=%d' % (getPeerId(post.peer_id), post.id)
 
 def getHash(target, post):
-    return '%s_%s' % (str(target), getMessageHash(post))
+    return '%s=%s' % (str(target), getMessageHash(post))
 
 async def process(client):
     # dialogs = await client.get_dialogs() # this may not be needed
@@ -78,8 +79,6 @@ async def process(client):
         if not shouldSend(posts.messages):
             continue
 
-        print(group.title)
-
         for subscription in setting.get('subscriptions', []):
             subscription = getTarget(subscription)
             channel =  await client.get_entity(subscription)
@@ -96,6 +95,14 @@ async def process(client):
                 await client.forward_messages(group, post.id, channel)
                 existing.update(item_hash, int(time.time()))
                 return
+
+        messages = setting.get('messages')
+        if not messages:
+            continue
+        message = messages[message_loop.get(str(target), 0) % len(messages)]
+        await client.send_message(group, message)
+        message_loop.inc(target, 1)
+        return
 
 async def run():
     client = TelegramClient('session_file', credential['api_id'], credential['api_hash'])
