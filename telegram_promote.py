@@ -16,8 +16,7 @@ message_log = {}
 for key, value in existing.items.items():
     target = key.split('_')[0]
     group_log[target] = max(group_log.get(target, 0), value)
-    message = key.[len(target) + 1:]
-    print(message)
+    message = key[len(target) + 1:]
     message_log[message] = max(group_log.get(message, 0), value)
 
 with open('credential') as f:
@@ -61,6 +60,13 @@ def getHash(target, post):
     return '%s_%s' % (str(target), getMessageHash(post))
 
 async def process(client):
+    for target, setting in settings.items():
+        for subscription in setting.get('subscriptions', []):
+            subscription = getTarget(subscription)
+            channel =  await client.get_entity(subscription)
+            posts = await client(GetHistoryRequest(peer=channel, limit=20,
+                offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
+            print(posts)
     # dialogs = await client.get_dialogs() # this may not be needed
 
     for target, setting in settings.items():
@@ -84,14 +90,11 @@ async def process(client):
             for post in posts.messages[::-1]:
                 if time.time() - datetime.timestamp(post.date) < 5 * 60 * 60:
                     continue
-                print(post)
                 item_hash = getHash(target, post)
                 if time.time() - message_log.get(getMessageHash(post), 0) < 48 * 60 * 60:
                     continue
                 if existing.get(item_hash):
                     continue
-                dialog = getDialog(dialogs, group)
-                # TODO: see if change dialog.entity to group is ok
                 await client.forward_messages(group, post.id, channel)
                 existing.update(item_hash, int(time.time()))
                 return
