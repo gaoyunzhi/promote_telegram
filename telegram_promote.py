@@ -67,7 +67,7 @@ def getHash(target, post):
 
 def getPostIds(target_post, posts):
     if target_post.grouped_id:
-        for post in posts[::-1]:
+        for post in posts.messages[::-1]:
             if post.grouped_id == target_post.grouped_id:
                 yield post.id
     else:
@@ -104,7 +104,6 @@ async def process(client):
                 if existing.get(item_hash):
                     continue
                 post_ids = list(getPostIds(post, posts))
-                print(post_ids)
                 await client.forward_messages(group, post_ids, channel)
                 existing.update(item_hash, int(time.time()))
                 return
