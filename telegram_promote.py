@@ -29,18 +29,18 @@ with open('settings') as f:
 def shouldSend(messages):
     for message in messages:
         # todo 法轮功的不算，那个鄂州亚太的不算
-        if message.from_id and message.from_id.user_id in [521358914]:
+        if message.from_id and message.from_id.user_id in [521358914, 771096498]:
+            continue
+        if message.action:
             continue
         if time.time() - datetime.timestamp(message.date) < 30 * 60:
             print(message)
             return False # 不打断现有对话
     if time.time() - datetime.timestamp(messages[0].date) > 48 * 60 * 60:
         return True
-    print('here')
     for message in messages:
         if message.from_id and message.from_id.user_id == credential['user_id']:
             return False
-    print('here1')
     return True
 
 def getTarget(target):
