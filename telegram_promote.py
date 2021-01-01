@@ -99,7 +99,7 @@ async def process(client):
             channel =  await client.get_entity(subscription)
             posts = await client(GetHistoryRequest(peer=channel, limit=30,
                 offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
-            for post in posts.messages[::-1][:22]:
+            for post in posts.messages[:22]:
                 if time.time() - datetime.timestamp(post.date) < 5 * 60 * 60:
                     continue
                 item_hash = getHash(target, post)
