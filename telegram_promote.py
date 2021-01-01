@@ -10,11 +10,15 @@ from datetime import datetime
 import time
 
 existing = plain_db.load('existing')
-last_send = {}
+group_log = {}
+message_log = {}
 
 for key, value in existing.items.items():
-    target = int(key.split('_')[0])
-    last_send[target] = max(last_send.get(target, 0), value)
+    target = key.split('_')[0]
+    group_log[target] = max(group_log.get(target, 0), value)
+    message = key.[len(target) + 1:]
+    print(message)
+    message_log[message] = max(group_log.get(message, 0), value)
 
 with open('credential') as f:
     credential = yaml.load(f, Loader=yaml.FullLoader)
@@ -23,8 +27,11 @@ with open('settings') as f:
     settings = yaml.load(f, Loader=yaml.FullLoader)
 
 def shouldSend(messages):
-    if time.time() - datetime.timestamp(messages[0].date) < 30 * 60:
-        return False # 不打断现有对话
+    for message in messages:
+        if message.from_id.user_id in [521358914]:
+            continue
+        if time.time() - datetime.timestamp(message.date) < 30 * 60:
+            return False # 不打断现有对话
     if time.time() - datetime.timestamp(messages[0].date) > 48 * 60 * 60:
         return True
     for message in messages:
@@ -47,27 +54,21 @@ def getPeerId(peer_id):
         except:
             ...
 
-# need to do dedup
-# also, don't send the same message at the same time
-def getHash(target, post):
-    return '%s_%d_%d' % (str(target), getPeerId(post.peer_id), post.id)
+def getMessageHash(post):
+    return '%d_%d' % (getPeerId(post.peer_id), post.id)
 
-def getDialog(dialogs, group):
-    for dialog in dialogs:
-        if dialog.entity.id == group.id:
-            return dialog
+def getHash(target, post):
+    return '%s_%s' % (str(target), getMessageHash(post))
 
 async def process(client):
-    dialogs = await client.get_dialogs()
+    # dialogs = await client.get_dialogs() # this may not be needed
 
     for target, setting in settings.items():
         target = getTarget(target)
-        if time.time() - last_send.get(target, 0) < 48 * 60 * 60: # start with 48 hour, see if I can change this to 5 hour
+        if time.time() - group_log.get(str(target), 0) < 48 * 60 * 60: # start with 48 hour, see if I can change this to 5 hour
             continue
 
         group =  await client.get_entity(target)
-
-        print('group', group.title)
         
         posts = await client(GetHistoryRequest(peer=group, limit=10,
             offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
@@ -75,7 +76,7 @@ async def process(client):
         if not shouldSend(posts.messages):
             continue
 
-        for subscription in setting['subscriptions']:
+        for subscription in setting.get('subscriptions', []):
             subscription = getTarget(subscription)
             channel =  await client.get_entity(subscription)
             posts = await client(GetHistoryRequest(peer=channel, limit=20,
@@ -83,7 +84,10 @@ async def process(client):
             for post in posts.messages[::-1]:
                 if time.time() - datetime.timestamp(post.date) < 5 * 60 * 60:
                     continue
+                print(post)
                 item_hash = getHash(target, post)
+                if time.time() - message_log.get(getMessageHash(post), 0) < 48 * 60 * 60:
+                    continue
                 if existing.get(item_hash):
                     continue
                 dialog = getDialog(dialogs, group)
