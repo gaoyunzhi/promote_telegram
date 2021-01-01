@@ -55,13 +55,23 @@ def getPeerId(peer_id):
             ...
 
 def getMessageHash(post):
+    message_id = post.grouped_id
     if post.fwd_from:
-        return '%d=%s' % (getPeerId(post.fwd_from.from_id), 
-            str(post.fwd_from.channel_post))
-    return '%d=%d' % (getPeerId(post.peer_id), post.id)
+        message_id = message_id or post.fwd_from.channel_post
+        return '%d=%s' % (getPeerId(post.fwd_from.from_id), str(message_id))
+    message_id = message_id or post.id
+    return '%d=%d' % (getPeerId(post.peer_id), message_id)
 
 def getHash(target, post):
     return '%s=%s' % (str(target), getMessageHash(post))
+
+def getPostIds(target_post, posts):
+    if target_post.grouped_id:
+        for post in posts[::-1]:
+            if post.grouped_id == target_post.grouped_id:
+                yield post.id
+    else:
+        yield target_post.id
 
 async def process(client):
     for target, setting in settings['groups'].items():
@@ -83,9 +93,9 @@ async def process(client):
         for subscription in setting.get('subscriptions', []):
             subscription = getTarget(subscription)
             channel =  await client.get_entity(subscription)
-            posts = await client(GetHistoryRequest(peer=channel, limit=20,
+            posts = await client(GetHistoryRequest(peer=channel, limit=30,
                 offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
-            for post in posts.messages[::-1]:
+            for post in posts.messages[::-1][:22]:
                 if time.time() - datetime.timestamp(post.date) < 5 * 60 * 60:
                     continue
                 item_hash = getHash(target, post)
@@ -93,8 +103,9 @@ async def process(client):
                     continue
                 if existing.get(item_hash):
                     continue
-                print(post)
-                await client.forward_messages(group, post.id, channel)
+                post_ids = list(getPostIds(post, posts))
+                print(post_ids)
+                await client.forward_messages(group, post_ids, channel)
                 existing.update(item_hash, int(time.time()))
                 return
         if not settings.get('promote_messages'):
