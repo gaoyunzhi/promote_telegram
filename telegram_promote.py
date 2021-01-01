@@ -107,9 +107,10 @@ async def process(client):
                 await client.forward_messages(group, post_ids, channel)
                 existing.update(item_hash, int(time.time()))
                 return
-        if not settings.get('promote_messages'):
+        if not setting.get('promote_messages'):
             continue
-        message = messages[message_loop.get('promote_messages', 0) % len(messages)]
+        promote_messages = settings.get('promote_messages')
+        message = promote_messages[message_loop.get('promote_messages', 0) % len(promote_messages)]
         await client.send_message(group, message)
         message_loop.inc('promote_messages', 1)
         return
