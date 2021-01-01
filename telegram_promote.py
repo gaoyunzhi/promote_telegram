@@ -78,6 +78,8 @@ async def process(client):
         if not shouldSend(posts.messages):
             continue
 
+        print(group.title)
+
         for subscription in setting.get('subscriptions', []):
             subscription = getTarget(subscription)
             channel =  await client.get_entity(subscription)
