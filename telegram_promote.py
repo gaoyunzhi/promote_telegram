@@ -28,6 +28,7 @@ with open('settings') as f:
 
 def shouldSend(messages):
     for message in messages:
+        # todo 法轮功的不算，那个鄂州亚太的不算
         if message.from_id and message.from_id.user_id in [521358914]:
             continue
         if time.time() - datetime.timestamp(message.date) < 30 * 60:
