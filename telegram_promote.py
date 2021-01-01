@@ -32,6 +32,7 @@ def shouldSend(messages):
         if message.from_id and message.from_id.user_id in [521358914]:
             continue
         if time.time() - datetime.timestamp(message.date) < 30 * 60:
+            print(message)
             return False # 不打断现有对话
     if time.time() - datetime.timestamp(messages[0].date) > 48 * 60 * 60:
         return True
