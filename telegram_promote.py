@@ -85,6 +85,8 @@ async def process(client):
         if time.time() - group_log.get(str(target), 0) < setting.get('gap_hour', 5) * 60 * 60:
             continue
 
+        if 'debug' in sys.argv:
+            print('fetching', target) 
         group =  await client.get_entity(target)
         if 'debug' in sys.argv:
             print(group.id, group.title)
