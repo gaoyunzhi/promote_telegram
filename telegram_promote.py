@@ -94,8 +94,8 @@ async def process(client):
         
         if (not setting.get('debug')) and (not shouldSend(posts.messages, setting)):
             continue
-        if setting.get('debug'):
-            print(group.id, group.title, 'shouldsend', shouldSend(posts.messages, setting))
+        # if setting.get('debug'):
+        #     print(group.id, group.title, 'shouldsend', shouldSend(posts.messages, setting))
 
         for subscription in setting.get('subscriptions', []):
             subscription = getTarget(subscription)
