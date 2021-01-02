@@ -118,7 +118,7 @@ async def process(client):
             continue
         promote_messages = settings.get('promote_messages')
         message = promote_messages[message_loop.get('promote_messages', 0) % len(promote_messages)]
-        print('telegram_promote', group.title)
+        print('promoted!', group.title)
         await client.send_message(group, message)
         message_loop.inc('promote_messages', 1)
         return
