@@ -42,12 +42,10 @@ def shouldSend(messages, setting):
             continue
         if message.action:
             continue
-        if time.time() - datetime.timestamp(message.date) < 30 * 60:
+        if time.time() - datetime.timestamp(message.date) < setting.get('wait_minute', 30) * 60:
             if 'debug' in sys.argv:
                 print(message)
             return False # 不打断现有对话
-    if time.time() - datetime.timestamp(messages[0].date) < 5 * 60 * 60:
-        return False
     if time.time() - datetime.timestamp(messages[0].date) > 48 * 60 * 60:
         return True
     for message in messages:
