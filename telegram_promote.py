@@ -27,10 +27,18 @@ with open('credential') as f:
 with open('settings') as f:
     settings = yaml.load(f, Loader=yaml.FullLoader)
 
-def shouldSend(messages):
+def getPeerId(peer_id):
+    for method in [lambda x: x.channel_id, 
+        lambda x: x.chat_id, lambda x: x.user_id]:
+        try:
+            return method(peer_id)
+        except:
+            ...
+
+def shouldSend(messages, setting):
     for message in messages:
         # todo 法轮功的不算，那个鄂州亚太的不算
-        if message.from_id and message.from_id.user_id in [521358914, 771096498, 609517172]:
+        if message.from_id and getPeerId(message.from_id) in [521358914, 771096498, 609517172]:
             continue
         if message.action:
             continue
@@ -38,6 +46,8 @@ def shouldSend(messages):
             if 'debug' in sys.argv:
                 print(message)
             return False # 不打断现有对话
+    if time.time() - datetime.timestamp(messages[0].date) < 5 * 60 * 60:
+        return False
     if time.time() - datetime.timestamp(messages[0].date) > 48 * 60 * 60:
         return True
     for message in messages:
@@ -51,14 +61,6 @@ def getTarget(target):
         return int(target)
     except:
         return target
-
-def getPeerId(peer_id):
-    for method in [lambda x: x.channel_id, 
-        lambda x: x.chat_id, lambda x: x.user_id]:
-        try:
-            return method(peer_id)
-        except:
-            ...
 
 def getMessageHash(post):
     message_id = post.grouped_id
@@ -92,10 +94,10 @@ async def process(client):
         posts = await client(GetHistoryRequest(peer=group, limit=10,
             offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
         
-        if (not setting.get('debug')) and (not shouldSend(posts.messages)):
+        if (not setting.get('debug')) and (not shouldSend(posts.messages, setting)):
             continue
         if setting.get('debug'):
-            print(group.id, group.title, 'shouldsend', shouldSend(posts.messages))
+            print(group.id, group.title, 'shouldsend', shouldSend(posts.messages, setting))
 
         for subscription in setting.get('subscriptions', []):
             subscription = getTarget(subscription)
