@@ -14,6 +14,7 @@ existing = plain_db.load('existing')
 group_log = {}
 message_log = {}
 message_loop = plain_db.load('message_loop')
+added_time = plain_db.load('added_time')
 
 for key, value in existing.items.items():
     target = key.split('=')[0]
@@ -82,7 +83,11 @@ def getPostIds(target_post, posts):
 async def process(client):
     for target, setting in settings['groups'].items():
         target = getTarget(target)
-        if time.time() - group_log.get(str(target), 0) < setting.get('gap_hour', 5) * 60 * 60:
+        if time.time() - group_log.get(target, 0) < setting.get('gap_hour', 5) * 60 * 60:
+            continue
+        if not added_time.get(target):
+            added_time.update(target, int(time.time()))
+        if time.time() - added_time.get(target) < 48 * 60 * 60: # 新加群不发言
             continue
 
         if 'debug' in sys.argv:
