@@ -8,6 +8,7 @@ import asyncio
 import plain_db
 from datetime import datetime
 import time
+import sys
 
 existing = plain_db.load('existing')
 group_log = {}
@@ -34,7 +35,8 @@ def shouldSend(messages):
         if message.action:
             continue
         if time.time() - datetime.timestamp(message.date) < 30 * 60:
-            print(message)
+            if 'debug' in sys.argv:
+                print(message)
             return False # 不打断现有对话
     if time.time() - datetime.timestamp(messages[0].date) > 48 * 60 * 60:
         return True
@@ -84,7 +86,8 @@ async def process(client):
             continue
 
         group =  await client.get_entity(target)
-        print(group.id, group.title)
+        if 'debug' in sys.argv:
+            print(group.id, group.title)
         
         posts = await client(GetHistoryRequest(peer=group, limit=10,
             offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
@@ -115,6 +118,7 @@ async def process(client):
             continue
         promote_messages = settings.get('promote_messages')
         message = promote_messages[message_loop.get('promote_messages', 0) % len(promote_messages)]
+        print('telegram_promote', group.title)
         await client.send_message(group, message)
         message_loop.inc('promote_messages', 1)
         return
