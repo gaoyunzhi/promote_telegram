@@ -9,6 +9,7 @@ import plain_db
 from datetime import datetime
 import time
 import sys
+import random
 
 existing = plain_db.load('existing')
 group_log = {}
@@ -81,7 +82,9 @@ def getPostIds(target_post, posts):
         yield target_post.id
 
 async def process(client):
-    for target, setting in settings['groups'].items():
+    targets = list(settings['groups'].items())
+    random.shuffle(targets)
+    for target, setting in targets:
         target = getTarget(target)
         if time.time() - group_log.get(target, 0) < setting.get('gap_hour', 5) * 60 * 60:
             continue
