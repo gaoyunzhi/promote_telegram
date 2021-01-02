@@ -49,7 +49,7 @@ def shouldSend(messages, setting):
     if time.time() - datetime.timestamp(messages[0].date) > 48 * 60 * 60:
         return True
     for message in messages:
-        if message.from_id and message.from_id.user_id == credential['user_id']:
+        if message.from_id and getPeerId(message.from_id) == credential['user_id']:
             return False
     return True
 
