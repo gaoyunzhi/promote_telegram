@@ -81,6 +81,10 @@ def getPostIds(target_post, posts):
     else:
         yield target_post.id
 
+async def log(posts):
+    message = posts[0]
+    await client.send_message(user, message)
+
 async def process(client):
     targets = list(settings['groups'].items())
     random.shuffle(targets)
@@ -121,7 +125,8 @@ async def process(client):
                 if existing.get(item_hash):
                     continue
                 post_ids = list(getPostIds(post, posts))
-                await client.forward_messages(group, post_ids, channel)
+                posts = await client.forward_messages(group, post_ids, channel)
+                await log(posts)
                 print('promoted!', group.title)
                 existing.update(item_hash, int(time.time()))
                 return
@@ -129,7 +134,8 @@ async def process(client):
             continue
         promote_messages = settings.get('promote_messages')
         message = promote_messages[message_loop.get('promote_messages', 0) % len(promote_messages)]
-        await client.send_message(group, message)
+        posts = await client.send_message(group, message)
+        await log(posts)
         message_loop.inc('promote_messages', 1)
         print('promoted!', group.title)
         return
