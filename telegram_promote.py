@@ -81,9 +81,17 @@ def getPostIds(target_post, posts):
     else:
         yield target_post.id
 
-async def log(posts):
+async def log(group, posts):
     message = posts[0]
-    await client.send_message(user, message)
+    if group.username:
+        link = 'https://t.me/%s/%d' % (group.username, message.id)
+    else:
+        link = 'https://t.me/c/%s/%d' % (group.id, message.id)
+    try:
+        print('id', message.id)
+    except:
+        ...
+    # await client.send_message(user, message)
 
 async def process(client):
     targets = list(settings['groups'].items())
@@ -126,7 +134,7 @@ async def process(client):
                     continue
                 post_ids = list(getPostIds(post, posts))
                 posts = await client.forward_messages(group, post_ids, channel)
-                await log(posts)
+                await log(group, posts)
                 print('promoted!', group.title)
                 existing.update(item_hash, int(time.time()))
                 return
@@ -135,7 +143,7 @@ async def process(client):
         promote_messages = settings.get('promote_messages')
         message = promote_messages[message_loop.get('promote_messages', 0) % len(promote_messages)]
         posts = await client.send_message(group, message)
-        await log(posts)
+        await log(group, posts)
         message_loop.inc('promote_messages', 1)
         print('promoted!', group.title)
         return
