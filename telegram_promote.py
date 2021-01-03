@@ -86,6 +86,13 @@ async def process(client):
     random.shuffle(targets)
     for target, setting in targets:
         target = getTarget(target)
+
+        if 'debug' in sys.argv:
+            print('fetching', target) 
+        group =  await client.get_entity(target)
+        if 'debug' in sys.argv:
+            print(group.id, group.title)
+            
         if time.time() - group_log.get(target, 0) < setting.get('gap_hour', 5) * 60 * 60:
             continue
         if not added_time.get(target):
