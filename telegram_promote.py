@@ -48,9 +48,9 @@ def shouldSend(messages, setting):
             if 'debug' in sys.argv:
                 print(message)
             return False # 不打断现有对话
-    if time.time() - datetime.timestamp(messages[0].date) > 48 * 60 * 60:
+    if time.time() - datetime.timestamp(messages[0].date) > 24 * 60 * 60:
         return True
-    for message in messages:
+    for message in messages[:5]:
         if message.from_id and getPeerId(message.from_id) == credential['user_id']:
             return False
     return True
@@ -86,13 +86,6 @@ async def process(client):
     random.shuffle(targets)
     for target, setting in targets:
         target = getTarget(target)
-
-        if 'debug' in sys.argv:
-            print('fetching', target) 
-        group =  await client.get_entity(target)
-        if 'debug' in sys.argv:
-            print(group.id, group.title)
-            
         if time.time() - group_log.get(target, 0) < setting.get('gap_hour', 5) * 60 * 60:
             continue
         if not added_time.get(target):
