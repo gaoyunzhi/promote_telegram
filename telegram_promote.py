@@ -62,6 +62,9 @@ def getTarget(target):
     except:
         return target
 
+def getPromoteMessageHash(message):
+    return '%s=%d=%d' % (message.split()[-1].split('/')[-1], datetime.now().month, int(datetime.now().day / 3))
+
 def getMessageHash(post):
     message_id = post.grouped_id
     if post.fwd_from:
@@ -95,6 +98,7 @@ async def process(client):
     random.shuffle(targets)
     for target, setting in targets:
         target = getTarget(target)
+        print('debug_gap_hour', target, time.time() - group_log.get(target, 0), setting.get('gap_hour', 5) * 60 * 60)
         if time.time() - group_log.get(target, 0) < setting.get('gap_hour', 5) * 60 * 60:
             continue
         if not added_time.get(target):
@@ -138,11 +142,16 @@ async def process(client):
         if not setting.get('promote_messages'):
             continue
         promote_messages = settings.get('promote_messages')
-        message = promote_messages[message_loop.get('promote_messages', 0) % len(promote_messages)]
+        loop_index = message_loop.get('promote_messages', 0) % len(promote_messages)
+        message = promote_messages[loop_index]
+        item_hash = '%s=%s' % (str(target), getPromoteMessageHash(message))
+        if existing.get(item_hash):
+            continue
         post = await client.send_message(group, message)
         await log(client, group, [post])
         message_loop.inc('promote_messages', 1)
         print('promoted!', group.title)
+        existing.update(item_hash, int(time.time()))
         return
 
 async def run():
