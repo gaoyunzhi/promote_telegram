@@ -133,7 +133,11 @@ async def process(client):
                 if existing.get(item_hash):
                     continue
                 post_ids = list(getPostIds(post, posts))
-                posts = await client.forward_messages(group, post_ids, channel)
+                try:
+                    posts = await client.forward_messages(group, post_ids, channel)
+                except Exception as e:
+                    print(group.title, str(e))
+                    continue
                 await log(client, group, posts)
                 print('promoted!', group.title)
                 existing.update(item_hash, int(time.time()))
