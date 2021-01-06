@@ -169,6 +169,7 @@ async def process(client):
 async def run():
     client = TelegramClient('session_file', credential['api_id'], credential['api_hash'])
     await client.start(password=credential['password'])
+    await populateSetting(client)
     await process(client)
     await client.disconnect()
 
