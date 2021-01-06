@@ -55,13 +55,6 @@ def shouldSend(messages, setting):
             return False
     return True
 
-def getTarget(target):
-    target = target.split('(')[0]
-    try:
-        return int(target)
-    except:
-        return target
-
 def getPromoteMessageHash(message):
     return '%s=%d=%d' % (message.split()[-1].split('/')[-1], datetime.now().month, int(datetime.now().day / 3))
 
@@ -84,6 +77,15 @@ def getPostIds(target_post, posts):
     else:
         yield target_post.id
 
+def removeGroup(title):
+    del settings['groups'][title]
+    with open('deleted_settings', 'a') as f:
+        deleted = {title: setting}
+        f.write(yaml.dump(deleted, sort_keys=True, indent=2, allow_unicode=True))
+        f.write('\n\n')
+    with open('settings', 'w') as f:
+        f.write(yaml.dump(settings, sort_keys=True, indent=2, allow_unicode=True))
+                
 async def log(client, group, posts):
     message = posts[0]
     if group.username:
@@ -106,20 +108,18 @@ async def process(client):
             continue
 
         if 'debug' in sys.argv:
-            print('fetching', target) 
+            username = setting['username']
+            if username:
+                username = 'https://t.me/' + username
+            print('fetching', target, setting['id'], username) 
         try:
             group =  await client.get_entity(target)
         except Exception as e:
             print('telegram_promote group fetching fail', target, str(e))
             if 'is private' in str(e):
-                removeTarget(target)
+                removeGroup(title)
                 continue
             continue
-        if 'debug' in sys.argv:
-            username = group.username
-            if username:
-                username = 'https://t.me/' + username
-            print(group.id, group.title, username)
         
         posts = await client(GetHistoryRequest(peer=group, limit=10,
             offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
@@ -130,7 +130,6 @@ async def process(client):
         #     print(group.id, group.title, 'shouldsend', shouldSend(posts.messages, setting))
 
         for subscription in setting.get('subscriptions', []):
-            subscription = getTarget(subscription)
             channel =  await client.get_entity(subscription)
             posts = await client(GetHistoryRequest(peer=channel, limit=30,
                 offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
@@ -173,7 +172,7 @@ async def populateSetting(client):
         if setting.get('id'):
             continue
         try:
-            group = await client.get_entity(getTarget(target))
+            group = await client.get_entity(target)
         except Exception as e:
             if 'is private' in str(e):
                 del settings['groups'][target]
