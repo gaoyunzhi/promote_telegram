@@ -108,7 +108,7 @@ async def process(client):
             continue
 
         if 'debug' in sys.argv:
-            username = setting['username']
+            username = setting.get('username')
             if username:
                 username = 'https://t.me/' + username
             print('fetching', target, setting['id'], username) 
