@@ -97,9 +97,7 @@ async def process(client):
     targets = list(settings['groups'].items())
     random.shuffle(targets)
     for target, setting in targets:
-
         target = getTarget(target)
-
         if time.time() - group_log.get(str(target), 0) < setting.get('gap_hour', 5) * 60 * 60:
             continue
         if not added_time.get(target):
