@@ -111,7 +111,7 @@ async def process(client):
             username = setting.get('username')
             if username:
                 username = 'https://t.me/' + username
-            print('fetching', target, setting['id'], username) 
+            print('fetching', title, target, setting['id'], username) 
         try:
             group =  await client.get_entity(target)
         except Exception as e:
