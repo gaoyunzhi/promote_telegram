@@ -179,7 +179,6 @@ async def populateSetting(client):
                 with open('deleted_settings', 'a') as f:
                     deleted = {target: setting}
                     f.write(yaml.dump(deleted, sort_keys=True, indent=2, allow_unicode=True))
-                    f.write('\n\n')
                 continue
         setting['id'] = group.id
         if group.username:
