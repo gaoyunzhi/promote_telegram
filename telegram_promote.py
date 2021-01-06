@@ -96,8 +96,8 @@ async def log(client, group, posts):
 async def process(client):
     targets = list(settings['groups'].items())
     random.shuffle(targets)
-    for target, setting in targets:
-        target = getTarget(target)
+    for title, setting in targets:
+        target = setting['id']
         if time.time() - group_log.get(str(target), 0) < setting.get('gap_hour', 5) * 60 * 60:
             continue
         if not added_time.get(target):
@@ -112,7 +112,8 @@ async def process(client):
         except Exception as e:
             print('telegram_promote group fetching fail', target, str(e))
             if 'is private' in str(e):
-                ...
+                removeTarget(target)
+                continue
             continue
         if 'debug' in sys.argv:
             username = group.username
@@ -171,7 +172,26 @@ async def populateSetting(client):
     for target, setting in targets:
         if setting.get('id'):
             continue
-        
+        try:
+            group = await client.get_entity(getTarget(target))
+        except Exception as e:
+            if 'is private' in str(e):
+                del settings['groups'][target]
+                with open('deleted_settings', 'a') as f:
+                    deleted = {target: setting}
+                    f.write(yaml.dump(deleted, sort_keys=True, indent=2, allow_unicode=True))
+                    f.write('\n\n')
+                continue
+        setting['id'] = group.id
+        if group.username:
+            setting['username'] = group.username
+        if 'joinchat' in target:
+            setting['invitation_link'] = target
+        name = group.title
+        del settings['groups'][target]
+        settings['groups'][name] = setting
+    with open('settings', 'w') as f:
+        f.write(yaml.dump(settings, sort_keys=True, indent=2, allow_unicode=True))
 
 
 async def run():
