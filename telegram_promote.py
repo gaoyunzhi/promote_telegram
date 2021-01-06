@@ -166,6 +166,14 @@ async def process(client):
         existing.update(item_hash, int(time.time()))
         return
 
+async def populateSetting(client):
+    targets = list(settings['groups'].items())
+    for target, setting in targets:
+        if setting.get('id'):
+            continue
+        
+
+
 async def run():
     client = TelegramClient('session_file', credential['api_id'], credential['api_hash'])
     await client.start(password=credential['password'])
