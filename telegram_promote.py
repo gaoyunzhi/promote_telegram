@@ -109,8 +109,10 @@ async def process(client):
             print('fetching', target) 
         try:
             group =  await client.get_entity(target)
-        except:
-            print('telegram_promote group fetching fail', target)
+        except Exception as e:
+            print('telegram_promote group fetching fail', target, str(e))
+            if 'is private' in str(e):
+                ...
             continue
         if 'debug' in sys.argv:
             username = group.username
@@ -167,9 +169,7 @@ async def process(client):
 async def run():
     client = TelegramClient('session_file', credential['api_id'], credential['api_hash'])
     await client.start(password=credential['password'])
-
     await process(client)
-
     await client.disconnect()
 
 if __name__ == "__main__":
