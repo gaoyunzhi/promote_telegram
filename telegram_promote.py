@@ -107,9 +107,16 @@ async def process(client):
 
         if 'debug' in sys.argv:
             print('fetching', target) 
-        group =  await client.get_entity(target)
+        try:
+            group =  await client.get_entity(target)
+        except:
+            print('telegram_promote group fetching fail', target)
+            continue
         if 'debug' in sys.argv:
-            print(group.id, group.title)
+            username = group.username
+            if username:
+                username = 'https://t.me/' + username
+            print(group.id, group.title, username)
         
         posts = await client(GetHistoryRequest(peer=group, limit=10,
             offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
