@@ -81,6 +81,7 @@ def getPostIds(target_post, posts):
         yield target_post.id
 
 def removeGroup(title):
+    setting = settings['groups'][title]
     del settings['groups'][title]
     with open('deleted_settings', 'a') as f:
         deleted = {title: setting}
