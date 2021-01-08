@@ -97,11 +97,11 @@ async def log(client, group, posts):
     debug_group = await client.get_entity(credential['debug_group'])
     await client.send_message(debug_group, link)
 
-async def trySend(target, group, channel, post, posts):
+async def trySend(client, group, channel, post, posts):
     if time.time() - datetime.timestamp(post.date) < 5 * 60 * 60:
         return
-    item_hash = getHash(target, post)
-    if time.time() - message_log.get(getMessageHash(post), 0) < 5 * 60 * 60:
+    item_hash = getHash(group.id, post)
+    if time.time() - message_log.get(getMessageHash(post), 0) < 12 * 60 * 60:
         return
     if existing.get(item_hash):
         return
@@ -110,6 +110,11 @@ async def trySend(target, group, channel, post, posts):
         results = await client.forward_messages(group, post_ids, channel)
     except Exception as e:
         print(group.title, str(e))
+        return
+    await log(client, group, results)
+    print('promoted!', group.title)
+    existing.update(item_hash, int(time.time()))
+    return
 
 async def process(client):
     targets = list(settings['groups'].items())
@@ -158,13 +163,9 @@ async def process(client):
                 posts_cache[subscription] = posts.messages 
 
             for post in posts_cache[subscription][:22]:
-                results = await trySend(target, post, posts_cache[subscription])
-                if not results:
-                    continue
-                await log(client, group, results)
-                print('promoted!', group.title)
-                existing.update(item_hash, int(time.time()))
-                return
+                results = await trySend(client, group, channel, post, posts_cache[subscription])
+                if results:
+                    return
         if not setting.get('promote_messages'):
             continue
         promote_messages = settings.get('promote_messages')
