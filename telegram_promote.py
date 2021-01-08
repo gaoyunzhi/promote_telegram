@@ -32,6 +32,11 @@ with open('credential') as f:
 with open('settings') as f:
     settings = yaml.load(f, Loader=yaml.FullLoader)
 
+all_subscriptions = set()
+for _, setting in settings['groups'].items():
+    for subscription in setting.get('subscriptions', []):
+        all_subscriptions.add(subscription)
+
 def getPeerId(peer_id):
     for method in [lambda x: x.channel_id, 
         lambda x: x.chat_id, lambda x: x.user_id]:
@@ -118,7 +123,7 @@ async def trySend(client, group, subscription, post):
     existing.update(item_hash, int(time.time()))
     return True
 
-async def populateCache(subscription):
+async def populateCache(client, subscription):
     if not channels_cache.get(subscription):
         channels_cache[subscription] = await client.get_entity(subscription)
     if not posts_cache.get(subscription):
@@ -161,18 +166,16 @@ async def process(client):
 
         if setting.get('keys'):
             for subscription in all_subscriptions:
-                await populateCache(subscription)
+                await populateCache(client, subscription)
                 for post in posts_cache[subscription]:
-                    print('matching Key', post.raw_text[:10])
                     if not matchKey(post.raw_text, setting.get('keys')):
                         continue
-                    print('matched Key', post.raw_text[:10])
                     result = await trySend(client, group, subscription, post)
                     if result:
                         return
 
         for subscription in setting.get('subscriptions', []):
-            await populateCache(subscription)
+            await populateCache(client, subscription)
             for post in posts_cache[subscription][:22]:
                 result = await trySend(client, group, subscription, post)
                 if result:
