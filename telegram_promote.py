@@ -18,6 +18,7 @@ message_log = {}
 message_loop = plain_db.load('message_loop')
 added_time = plain_db.load('added_time')
 posts_cache = {}
+channels_cache = {}
 
 for key, value in existing.items.items():
     target = key.split('=')[0]
@@ -97,7 +98,7 @@ async def log(client, group, posts):
     debug_group = await client.get_entity(credential['debug_group'])
     await client.send_message(debug_group, link)
 
-async def trySend(client, group, channel, post, posts):
+async def trySend(client, group, subscription, post):
     if time.time() - datetime.timestamp(post.date) < 5 * 60 * 60:
         return
     item_hash = getHash(group.id, post)
@@ -105,16 +106,16 @@ async def trySend(client, group, channel, post, posts):
         return
     if existing.get(item_hash):
         return
-    post_ids = list(getPostIds(post, posts))
+    post_ids = list(getPostIds(post, posts_cache[subscription]))
     try:
-        results = await client.forward_messages(group, post_ids, channel)
+        results = await client.forward_messages(group, post_ids, channels_cache[subscription])
     except Exception as e:
         print(group.title, str(e))
         return
     await log(client, group, results)
     print('promoted!', group.title)
     existing.update(item_hash, int(time.time()))
-    return
+    return True
 
 async def process(client):
     targets = list(settings['groups'].items())
@@ -150,21 +151,25 @@ async def process(client):
         #     print(group.id, group.title, 'shouldsend', shouldSend(posts.messages, setting))
 
         if setting.get('keys'):
-            for channel, posts in posts_cache.items():
+            for subscription, posts in posts_cache.items():
                 for post in posts:
-                    if matchKey(setting.get('keys')):
-
+                    if not matchKey(post.raw_text, setting.get('keys')):
+                        continue
+                    result = await trySend(client, group, subscription, post)
+                    if result:
+                        return
 
         for subscription in setting.get('subscriptions', []):
-            channel =  await client.get_entity(subscription)
+            if not channels_cache.get(subscription):
+                channels_cache[subscription] = await client.get_entity(subscription)
             if not posts_cache.get(subscription):
-                posts = await client(GetHistoryRequest(peer=channel, limit=30,
+                posts = await client(GetHistoryRequest(peer=channels_cache[subscription], limit=30,
                     offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
                 posts_cache[subscription] = posts.messages 
 
             for post in posts_cache[subscription][:22]:
-                results = await trySend(client, group, channel, post, posts_cache[subscription])
-                if results:
+                result = await trySend(client, group, subscription, post)
+                if result:
                     return
         if not setting.get('promote_messages'):
             continue
