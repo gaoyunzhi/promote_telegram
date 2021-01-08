@@ -10,6 +10,7 @@ from datetime import datetime
 import time
 import sys
 import random
+from telegram_util import matchKey
 
 existing = plain_db.load('existing')
 group_log = {}
@@ -72,7 +73,7 @@ def getHash(target, post):
 
 def getPostIds(target_post, posts):
     if target_post.grouped_id:
-        for post in posts.messages[::-1]:
+        for post in posts[::-1]:
             if post.grouped_id == target_post.grouped_id:
                 yield post.id
     else:
@@ -95,6 +96,20 @@ async def log(client, group, posts):
         link = 'https://t.me/c/%s/%d' % (group.id, message.id)
     debug_group = await client.get_entity(credential['debug_group'])
     await client.send_message(debug_group, link)
+
+async def trySend(target, group, channel, post, posts):
+    if time.time() - datetime.timestamp(post.date) < 5 * 60 * 60:
+        return
+    item_hash = getHash(target, post)
+    if time.time() - message_log.get(getMessageHash(post), 0) < 5 * 60 * 60:
+        return
+    if existing.get(item_hash):
+        return
+    post_ids = list(getPostIds(post, posts))
+    try:
+        results = await client.forward_messages(group, post_ids, channel)
+    except Exception as e:
+        print(group.title, str(e))
 
 async def process(client):
     targets = list(settings['groups'].items())
@@ -121,32 +136,30 @@ async def process(client):
                 removeGroup(title)
                 continue
             continue
-        
-        posts = await client(GetHistoryRequest(peer=group, limit=10,
+
+        group_posts = await client(GetHistoryRequest(peer=group, limit=10,
             offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
-        
-        if (not setting.get('debug')) and (not shouldSend(posts.messages, setting)):
+        if (not setting.get('debug')) and (not shouldSend(group_posts.messages, setting)):
             continue
         # if setting.get('debug'):
         #     print(group.id, group.title, 'shouldsend', shouldSend(posts.messages, setting))
 
+        if setting.get('keys'):
+            for channel, posts in posts_cache.items():
+                for post in posts:
+                    if matchKey(setting.get('keys')):
+
+
         for subscription in setting.get('subscriptions', []):
             channel =  await client.get_entity(subscription)
-            posts = await client(GetHistoryRequest(peer=channel, limit=30,
-                offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
-            for post in posts.messages[:22]:
-                if time.time() - datetime.timestamp(post.date) < 5 * 60 * 60:
-                    continue
-                item_hash = getHash(target, post)
-                if time.time() - message_log.get(getMessageHash(post), 0) < 48 * 60 * 60:
-                    continue
-                if existing.get(item_hash):
-                    continue
-                post_ids = list(getPostIds(post, posts))
-                try:
-                    results = await client.forward_messages(group, post_ids, channel)
-                except Exception as e:
-                    print(group.title, str(e))
+            if not posts_cache.get(subscription):
+                posts = await client(GetHistoryRequest(peer=channel, limit=30,
+                    offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
+                posts_cache[subscription] = posts.messages 
+
+            for post in posts_cache[subscription][:22]:
+                results = await trySend(target, post, posts_cache[subscription])
+                if not results:
                     continue
                 await log(client, group, results)
                 print('promoted!', group.title)
