@@ -16,6 +16,7 @@ group_log = {}
 message_log = {}
 message_loop = plain_db.load('message_loop')
 added_time = plain_db.load('added_time')
+posts_cache = {}
 
 for key, value in existing.items.items():
     target = key.split('=')[0]
@@ -143,11 +144,11 @@ async def process(client):
                     continue
                 post_ids = list(getPostIds(post, posts))
                 try:
-                    posts = await client.forward_messages(group, post_ids, channel)
+                    results = await client.forward_messages(group, post_ids, channel)
                 except Exception as e:
                     print(group.title, str(e))
                     continue
-                await log(client, group, posts)
+                await log(client, group, results)
                 print('promoted!', group.title)
                 existing.update(item_hash, int(time.time()))
                 return
@@ -159,8 +160,8 @@ async def process(client):
         item_hash = '%s=%s' % (str(target), getPromoteMessageHash(message))
         if existing.get(item_hash):
             continue
-        post = await client.send_message(group, message)
-        await log(client, group, [post])
+        result = await client.send_message(group, message)
+        await log(client, group, [result])
         message_loop.inc('promote_messages', 1)
         print('promoted!', group.title)
         existing.update(item_hash, int(time.time()))
