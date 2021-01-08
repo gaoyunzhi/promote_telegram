@@ -118,6 +118,14 @@ async def trySend(client, group, subscription, post):
     existing.update(item_hash, int(time.time()))
     return True
 
+async def populateCache(subscription):
+    if not channels_cache.get(subscription):
+        channels_cache[subscription] = await client.get_entity(subscription)
+    if not posts_cache.get(subscription):
+        posts = await client(GetHistoryRequest(peer=channels_cache[subscription], limit=30,
+            offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
+        posts_cache[subscription] = posts.messages 
+
 async def process(client):
     targets = list(settings['groups'].items())
     random.shuffle(targets)
@@ -152,10 +160,9 @@ async def process(client):
         #     print(group.id, group.title, 'shouldsend', shouldSend(posts.messages, setting))
 
         if setting.get('keys'):
-            print('len(posts_cache)', len(posts_cache))
-            for subscription, posts in posts_cache.items():
-                print(subscription)
-                for post in posts:
+            for subscription in all_subscriptions:
+                await populateCache(subscription)
+                for post in posts_cache[subscription]:
                     print('matching Key', post.raw_text[:10])
                     if not matchKey(post.raw_text, setting.get('keys')):
                         continue
@@ -165,14 +172,7 @@ async def process(client):
                         return
 
         for subscription in setting.get('subscriptions', []):
-            if not channels_cache.get(subscription):
-                channels_cache[subscription] = await client.get_entity(subscription)
-            if not posts_cache.get(subscription):
-                posts = await client(GetHistoryRequest(peer=channels_cache[subscription], limit=30,
-                    offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
-                posts_cache[subscription] = posts.messages 
-            print('len(posts_cache) here', len(posts_cache))
-
+            await populateCache(subscription)
             for post in posts_cache[subscription][:22]:
                 result = await trySend(client, group, subscription, post)
                 if result:
