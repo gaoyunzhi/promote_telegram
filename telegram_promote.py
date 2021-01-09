@@ -220,22 +220,11 @@ async def populateSetting(client):
     with open('settings', 'w') as f:
         f.write(yaml.dump(settings, sort_keys=True, indent=2, allow_unicode=True))
 
-
-async def test(client):
-    await populateCache(client, 'freedom_watch')
-    posts = posts_cache['freedom_watch']
-    for post in posts:
-        if post.id != 3247:
-            continue
-        debug_group = await client.get_entity(credential['debug_group'])
-        await trySend(client, debug_group, 'freedom_watch', post)
-
 async def run():
     client = TelegramClient('session_file', credential['api_id'], credential['api_hash'])
     await client.start(password=credential['password'])
     await populateSetting(client)
-    await test(client)
-    # await process(client)
+    await process(client)
     await client.disconnect()
 
 if __name__ == "__main__":
