@@ -124,19 +124,22 @@ async def trySend(client, group, subscription, post):
     return True
 
 async def populateCache(client, subscription):
-    if not channels_cache.get(subscription):
-        channels_cache[subscription] = await client.get_entity(subscription)
-    if not posts_cache.get(subscription):
-        posts = await client(GetHistoryRequest(peer=channels_cache[subscription], limit=30,
-            offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
-        posts_cache[subscription] = posts.messages 
+    try:
+        if not channels_cache.get(subscription):
+            channels_cache[subscription] = await client.get_entity(subscription)
+        if not posts_cache.get(subscription):
+            posts = await client(GetHistoryRequest(peer=channels_cache[subscription], limit=30,
+                offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
+            posts_cache[subscription] = posts.messages 
+    except Exception as e:
+        print('populateCache failed', str(e), subscription)
 
 async def process(client):
     targets = list(settings['groups'].items())
     random.shuffle(targets)
     for title, setting in targets:
         target = setting['id']
-        if time.time() - group_log.get(str(target), 0) < setting.get('gap_hour', 5) * 60 * 60:
+        if time.time() - group_log.get(str(target), 0) < setting.get('gap_hour', 12) * 60 * 60:
             continue
         if not added_time.get(target):
             added_time.update(target, int(time.time()))
