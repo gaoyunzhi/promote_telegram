@@ -124,15 +124,17 @@ async def trySend(client, group, subscription, post):
     return True
 
 async def populateCache(client, subscription):
-    try:
-        if not channels_cache.get(subscription):
-            channels_cache[subscription] = await client.get_entity(subscription)
-        if not posts_cache.get(subscription):
-            posts = await client(GetHistoryRequest(peer=channels_cache[subscription], limit=30,
-                offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
-            posts_cache[subscription] = posts.messages 
-    except Exception as e:
-        print('populateCache failed', str(e), subscription)
+    target = settings['id_map'].get(subscription)
+    if not channels_cache.get(subscription):
+        channels_cache[subscription] = await client.get_entity(target or subscription)
+    if not target:
+        settings['id_map'][subscription] = channels_cache[subscription].id
+        with open('settings', 'w') as f:
+            f.write(yaml.dump(settings, sort_keys=True, indent=2, allow_unicode=True))
+    if not posts_cache.get(subscription):
+        posts = await client(GetHistoryRequest(peer=channels_cache[subscription], limit=30,
+            offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
+        posts_cache[subscription] = posts.messages 
 
 async def process(client):
     targets = list(settings['groups'].items())
