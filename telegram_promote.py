@@ -106,17 +106,17 @@ async def log(client, group, posts):
 
 async def logGroupPosts(client, group, group_posts):
     for message in group_posts.messages:
-        if not matchKey(post.raw_text, settings.get('watching_keys')):
+        if not matchKey(message.raw_text, settings.get('watching_keys')):
             continue
-        item_hash = 'forward=' + ''.join(post.raw_text.split())[:30]
+        item_hash = 'forward=' + ''.join(message.raw_text.split())[:30]
         if existing.get(item_hash):
             continue
         forward_group = await client.get_entity(credential['forward_group'])
         post_ids = list(getPostIds(message, group_posts.messages))
         await client.forward_messages(forward_group, post_ids, group)
-        await client.send_message(debug_group, getLink(group, message))
+        await client.send_message(forward_group, getLink(group, message))
         existing.update(item_hash, 1)
-        
+
 async def trySend(client, group, subscription, post):
     if time.time() - datetime.timestamp(post.date) < 5 * 60 * 60:
         return
@@ -177,7 +177,7 @@ async def process(client):
 
         group_posts = await client(GetHistoryRequest(peer=group, limit=10,
             offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
-        logGroupPosts(client, group, group_posts)
+        await logGroupPosts(client, group, group_posts)
         if (not setting.get('debug')) and (not shouldSend(group_posts.messages, setting)):
             continue
         # if setting.get('debug'):
