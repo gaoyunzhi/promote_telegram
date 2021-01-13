@@ -104,6 +104,12 @@ async def log(client, group, posts):
     debug_group = await client.get_entity(credential['debug_group'])
     await client.send_message(debug_group, link)
 
+async def logGroupPosts(client, group, group_posts):
+    for message in group_posts.messages:
+        if not matchKey(post.raw_text, settings.get('watching_keys')):
+            continue
+
+
 async def trySend(client, group, subscription, post):
     if time.time() - datetime.timestamp(post.date) < 5 * 60 * 60:
         return
@@ -164,6 +170,7 @@ async def process(client):
 
         group_posts = await client(GetHistoryRequest(peer=group, limit=10,
             offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
+        logGroupPosts(client, group, group_posts)
         if (not setting.get('debug')) and (not shouldSend(group_posts.messages, setting)):
             continue
         # if setting.get('debug'):
