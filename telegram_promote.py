@@ -108,6 +108,14 @@ async def logGroupPosts(client, group, group_posts):
     for message in group_posts.messages:
         if not matchKey(post.raw_text, settings.get('watching_keys')):
             continue
+        item_hash = 'forward=' + ''.join(post.raw_text.split())[:30]
+        if existing.get(item_hash):
+            continue
+        forward_group = await client.get_entity(credential['forward_group'])
+        post_ids = list(getPostIds(message, group_posts.messages))
+        results = await client.forward_messages(forward_group, post_ids, group)
+
+        existing.update(item_hash, 1)
 
 
 async def trySend(client, group, subscription, post):
