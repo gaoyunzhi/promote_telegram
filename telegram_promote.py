@@ -217,11 +217,14 @@ async def populateSetting(client):
         setting['id'] = group.id
         if group.username:
             setting['username'] = group.username
-        if 'joinchat' in target:
+        if 'joinchat' in str(target):
             setting['invitation_link'] = target
         name = group.title
         del settings['groups'][target]
-        settings['groups'][name] = setting
+        if name not in settings['groups']:
+            settings['groups'][name] = setting
+        else:
+            print('Error! Group name conflict', name, setting)
     with open('settings', 'w') as f:
         f.write(yaml.dump(settings, sort_keys=True, indent=2, allow_unicode=True))
 
@@ -234,8 +237,6 @@ async def test(client):
 async def run():
     client = TelegramClient('session_file', credential['api_id'], credential['api_hash'])
     await client.start(password=credential['password'])
-    await test(client)
-    return
     await populateSetting(client)
     await process(client)
     await client.disconnect()
