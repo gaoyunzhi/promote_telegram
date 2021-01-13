@@ -95,14 +95,14 @@ def removeGroup(title):
     with open('settings', 'w') as f:
         f.write(yaml.dump(settings, sort_keys=True, indent=2, allow_unicode=True))
                 
-async def log(client, group, posts):
-    message = posts[0]
+def getLink(group, message):
     if group.username:
-        link = 'https://t.me/%s/%d' % (group.username, message.id)
-    else:
-        link = 'https://t.me/c/%s/%d' % (group.id, message.id)
+        return 'https://t.me/%s/%d' % (group.username, message.id)
+    return 'https://t.me/c/%s/%d' % (group.id, message.id)
+
+async def log(client, group, posts):
     debug_group = await client.get_entity(credential['debug_group'])
-    await client.send_message(debug_group, link)
+    await client.send_message(debug_group, getLink(group, posts[0]))
 
 async def logGroupPosts(client, group, group_posts):
     for message in group_posts.messages:
@@ -113,11 +113,10 @@ async def logGroupPosts(client, group, group_posts):
             continue
         forward_group = await client.get_entity(credential['forward_group'])
         post_ids = list(getPostIds(message, group_posts.messages))
-        results = await client.forward_messages(forward_group, post_ids, group)
-
+        await client.forward_messages(forward_group, post_ids, group)
+        await client.send_message(debug_group, getLink(group, message))
         existing.update(item_hash, 1)
-
-
+        
 async def trySend(client, group, subscription, post):
     if time.time() - datetime.timestamp(post.date) < 5 * 60 * 60:
         return
