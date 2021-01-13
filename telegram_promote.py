@@ -114,7 +114,6 @@ async def logGroupPosts(client, group, group_posts):
             continue
         if message.fwd_from and getPeerId(message.fwd_from.from_id) in settings.get('block_ids'):
             continue
-        print(message)
         item_hash = 'forward=' + ''.join(message.raw_text.split())[:30]
         if existing.get(item_hash):
             continue
@@ -184,7 +183,8 @@ async def process(client):
 
         group_posts = await client(GetHistoryRequest(peer=group, limit=10,
             offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
-        await logGroupPosts(client, group, group_posts)
+        if not setting.get('debug'):
+            await logGroupPosts(client, group, group_posts)
         if (not setting.get('debug')) and (not shouldSend(group_posts.messages, setting)):
             continue
         # if setting.get('debug'):
