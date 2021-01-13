@@ -108,7 +108,11 @@ async def logGroupPosts(client, group, group_posts):
     for message in group_posts.messages:
         if not matchKey(message.raw_text, settings.get('watching_keys')):
             continue
-        if not matchKey(message.raw_text, settings.get('block_keys')):
+        if matchKey(message.raw_text, settings.get('block_keys')):
+            continue
+        if getPeerId(message.from_id) in settings.get('block_ids'):
+            continue
+        if message.fwd_from and getPeerId(message.fwd_from.from_id) in settings.get('block_ids'):
             continue
         print(message)
         item_hash = 'forward=' + ''.join(message.raw_text.split())[:30]
