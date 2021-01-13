@@ -225,9 +225,17 @@ async def populateSetting(client):
     with open('settings', 'w') as f:
         f.write(yaml.dump(settings, sort_keys=True, indent=2, allow_unicode=True))
 
+async def test(client):
+    async for dialog in client.iter_dialogs():
+        if dialog.is_group:
+            entity = dialog.entity
+            print(entity.title, entity.id)
+
 async def run():
     client = TelegramClient('session_file', credential['api_id'], credential['api_hash'])
     await client.start(password=credential['password'])
+    await test(client)
+    return
     await populateSetting(client)
     await process(client)
     await client.disconnect()
