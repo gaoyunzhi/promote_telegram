@@ -268,27 +268,9 @@ async def run():
     # await populateSetting(client)
     # await process(client)
     # await client.disconnect()
-
-def test1():
-    with open('groups.yaml') as f:
-        groups = yaml.load(f, Loader=yaml.FullLoader)
-    new_groups = {}
-    for title, setting in groups.items():
-        if 'id' not in setting:
-            new_groups[title] = setting
-            continue
-        setting['promoter'] = -1
-        setting['title'] = title
-        setting['kicked'] = 1
-        gid = setting['id']
-        del setting['id']
-        new_groups[gid] = setting
-    with open('groups.yaml', 'w') as f:
-        f.write(yaml.dump(new_groups, sort_keys=True, indent=2, allow_unicode=True))
-
+    
 if __name__ == "__main__":
-    test1()
-    # loop = asyncio.new_event_loop()
-    # asyncio.set_event_loop(loop)
-    # r = loop.run_until_complete(run())
-    # loop.close()
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    r = loop.run_until_complete(run())
+    loop.close()
