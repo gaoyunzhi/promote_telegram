@@ -29,6 +29,7 @@
   - https://t.me/web_feed
   title: 上海吃喝玩乐群
   username: shang_hai
+  note: 男癌
 1121481396:
   promoter: -1
   subscriptions:
@@ -116,6 +117,7 @@
   - https://t.me/freedom_watch
   title: 武汉肺炎疫情交流群
   username: whfyyq
+  kicked: 1
 1261458144:
   promoter: -1
   subscriptions:
@@ -252,3 +254,74 @@
 1485552366:
   promoter: -1
   title: 独自
+品韭观海:
+  id: 1243618808
+  promote_messages: 0
+  subscriptions:
+  - https://t.me/freedom_watch
+  - https://t.me/people_sing
+  - https://t.me/web_feed
+美人花🌼社区:
+  id: 1489304512
+  subscriptions:
+  - https://t.me/freedom_watch
+  - https://t.me/web_feed
+  username: talktalk8
+满月城:
+  id: 1452384739
+  subscriptions:
+  - https://t.me/freedom_watch
+  - https://t.me/people_sing
+  - https://t.me/daily_feminist
+  - https://t.me/web_feed
+  username: TheLunarCity
+  wait_minute: 10
+自由广场:
+  id: 1174356589
+  subscriptions:
+  - https://t.me/freedom_watch
+  - https://t.me/people_sing
+  - https://t.me/web_feed
+  username: freedom8964
+華人電報群:
+  id: 1318297666
+  subscriptions:
+  - https://t.me/freedom_watch
+  - https://t.me/people_sing
+  - https://t.me/web_feed
+  username: huarendianbaoqun
+Asian Americans ❤️ communities:
+  id: 1335284515
+  invitation_link: https://t.me/joinchat/AAAAAE-W0yNiS6DIlGHsKA
+  note: 川粉群
+  subscriptions:
+  - https://t.me/us_watch
+  - https://t.me/freedom_watch
+  - https://t.me/bay_area_community
+  - https://t.me/web_feed
+品葱（新大陆）:
+  id: 1208639030
+  subscriptions:
+  - https://t.me/freedom_watch
+  - https://t.me/daily_feminist
+  username: pinconger品葱（新大陆）:
+  id: 1208639030
+  subscriptions:
+  - https://t.me/freedom_watch
+  - https://t.me/daily_feminist
+  username: pinconger
+我们的家园※华人资讯互动交流中心:
+  id: 1348077844
+  subscriptions:
+  - https://t.me/us_watch
+  - https://t.me/freedom_watch
+  - https://t.me/web_feed
+  username: xinjiayuan
+  wait_minute: 10
+  note: 法轮功
+台灣國:
+  id: 1429980887
+  keys:
+  - 台湾
+  - 台灣
+  username: guichequn

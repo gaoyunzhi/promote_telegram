@@ -274,8 +274,12 @@ def test1():
         groups = yaml.load(f, Loader=yaml.FullLoader)
     new_groups = {}
     for title, setting in groups.items():
+        if 'id' not in setting:
+            new_groups[title] = setting
+            continue
         setting['promoter'] = -1
         setting['title'] = title
+        setting['kicked'] = 1
         gid = setting['id']
         del setting['id']
         new_groups[gid] = setting
