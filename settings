@@ -1,0 +1,62 @@
+block_ids:
+- 1376838766
+- 1476487693
+- 1233090884
+- 1323322983
+- 652105646
+- 771096498
+- 697238845
+- 844396960
+block_keys:
+- 希望之声
+- 希望之聲
+- 真识
+- 自由之聲
+- 自由之声
+id_map:
+  https://t.me/bay_area_community: 1280089460
+  https://t.me/daily_feminist: 1474132510
+  https://t.me/freedom_watch: 1286091818
+  https://t.me/labor_one: 1427773894
+  https://t.me/people_sing: 1369140206
+  https://t.me/race_ethnicity: 1237640500
+  https://t.me/us_watch: 1370746032
+  https://t.me/useless_project_ideas: 1481629772
+  https://t.me/web_feed: 1484241754
+  https://t.me/womxn_union: 1471213510
+promote_messages:
+- '#推廣 https://t.me/weibo_read'
+- '#推廣 https://t.me/douban_read'
+- '#推廣 https://t.me/queer_liberation'
+- '#推廣 https://t.me/life_with_disabilities'
+- '#推廣 https://t.me/one_green_planet'
+- '#推廣 https://t.me/dushufenxiang_chat'
+- '#推廣 https://t.me/english_learning_discuss'
+- '#推廣 https://t.me/news_pdf'
+- '#推廣 https://t.me/liberal_chat'
+- '#推廣 https://t.me/round_table_discuss'
+- '#推廣 https://t.me/dushufenxiang'
+- '#推廣 https://t.me/daily_feminist'
+- '#推廣 https://t.me/feminist_watch'
+- '#推廣 https://t.me/equality_and_rights'
+- '#推廣 https://t.me/freedom_watch'
+- '#推廣 https://t.me/funny_read'
+watching_keys:
+- 女权
+- 跨性别
+- 警察
+- t.me/
+- 酷儿
+- LGBT
+- 性别
+- 女性
+- 平等
+- 公正
+- 环保
+- 残障
+- 议题
+- 平权
+- 种族
+- 哲学
+- 宗教
+- 日语

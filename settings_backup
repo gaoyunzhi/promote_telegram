@@ -1,0 +1,222 @@
+groups:
+  EB移民申请与排期:
+    id: 1448148428
+    subscriptions:
+    - https://t.me/us_watch
+    - https://t.me/bay_area_community
+    username: EBGreenCard
+  ETWGroup:
+    id: 1302527591
+    subscriptions:
+    - https://t.me/freedom_watch
+    - https://t.me/daily_feminist
+    - https://t.me/web_feed
+  Matters:
+    id: 1213688163
+    subscriptions:
+    - https://t.me/freedom_watch
+    - https://t.me/daily_feminist
+    - https://t.me/web_feed
+    username: thematters
+  Telegram 群組推廣:
+    id: 1239301596
+    promote_messages: 1
+    username: tgroupsforzh
+  ♥️上海频道电报讨论組Shanghai魔都電報群:
+    id: 1169959661
+    keys:
+    - 上海
+    subscriptions:
+    - https://t.me/web_feed
+    username: shanghai88877
+  ⚔️反贼⚔️川普被美国主流社交平台永久封号:
+    id: 1451962012
+    subscriptions:
+    - https://t.me/freedom_watch
+    username: SARSnew
+  上海吃喝玩乐群:
+    id: 1114862887
+    keys:
+    - 上海
+    subscriptions:
+    - https://t.me/web_feed
+    username: shang_hai
+  中国自由公民党海外群:
+    id: 1270675408
+    subscriptions:
+    - https://t.me/us_watch
+    - https://t.me/freedom_watch
+    - https://t.me/race_ethnicity
+    - https://t.me/web_feed
+  中國工黨-Labour Party Of China:
+    id: 1447565367
+    subscriptions:
+    - https://t.me/labor_one
+    username: LabourPartyOfChina
+  中華納稅人:
+    id: 1419573356
+    subscriptions:
+    - https://t.me/freedom_watch
+    - https://t.me/daily_feminist
+    username: qiushichen
+  乙烷日报读者群:
+    id: 1083906692
+    subscriptions:
+    - https://t.me/freedom_watch
+    - https://t.me/daily_feminist
+    username: OverDailyChat
+  京都风云~北京电报群:
+    id: 1359450920
+    subscriptions:
+    - https://t.me/freedom_watch
+    - https://t.me/people_sing
+    - https://t.me/web_feed
+    username: jingdufengyun
+  全球华人时政论坛:
+    id: 1274456310
+    subscriptions:
+    - https://t.me/freedom_watch
+    - https://t.me/us_watch
+    - https://t.me/bay_area_community
+    username: forum_for_chinese
+  北美房地产投资交流群:
+    id: 1252453395
+    subscriptions:
+    - https://t.me/us_watch
+    - https://t.me/web_feed
+    username: bmdcxtgroup
+  北美移民生活与时政:
+    id: 1410337085
+    subscriptions:
+    - https://t.me/freedom_watch
+    - https://t.me/us_watch
+    username: discussimmigration
+  华人中心 Chinese Center Group:
+    id: 1413909389
+    subscriptions:
+    - https://t.me/freedom_watch
+    username: ChineseCenterGroup
+  台灣國:
+    id: 1429980887
+    keys:
+    - 台湾
+    - 台灣
+    username: guichequn
+  小粉红vs法轮功vs反共志士互喷群:
+    id: 1482921272
+    subscriptions:
+    - https://t.me/freedom_watch
+    - https://t.me/people_sing
+    - https://t.me/web_feed
+    username: InsultingEmpire
+  弦子和她的朋友们:
+    id: 1261458144
+    subscriptions:
+    - https://t.me/daily_feminist
+    - https://t.me/womxn_union
+    username: Xianzihetadepengyoumen
+  我们的家园※华人资讯互动交流中心:
+    id: 1348077844
+    subscriptions:
+    - https://t.me/freedom_watch
+    username: xinjiayuan
+    wait_minute: 10
+  方舟子读者群:
+    id: 1203075519
+    subscriptions:
+    - https://t.me/us_watch
+    - https://t.me/freedom_watch
+    - https://t.me/bay_area_community
+    - https://t.me/people_sing
+    - https://t.me/web_feed
+    username: fangshimin_tg
+  武汉肺炎疫情交流群:
+    id: 1260310512
+    keys:
+    - 疫情
+    subscriptions:
+    - https://t.me/freedom_watch
+    username: whfyyq
+  民主中国:
+    id: 1372747704
+    subscriptions:
+    - https://t.me/freedom_watch
+    - https://t.me/daily_feminist
+    username: minzhuziyouChina
+  流浪防区 /r/China_irl:
+    id: 1213526515
+    subscriptions:
+    - https://t.me/useless_project_ideas
+    - https://t.me/freedom_watch
+    username: China_irl
+  海外秦晖先生著作历史读书阅读心得分享群:
+    id: 1150318829
+    subscriptions:
+    - https://t.me/freedom_watch
+    username: qinhuixiansheng
+  电报人(事事关心):
+    id: 1121481396
+    subscriptions:
+    - https://t.me/freedom_watch
+    username: three001
+  科技花 🎗 社区:
+    id: 1091256481
+    subscriptions:
+    - https://t.me/useless_project_ideas
+    - https://t.me/web_feed
+    username: zaihuachat
+    wait_minute: 20
+  美国社会与政治:
+    debug: 1
+    gap_hour: 0
+    id: 1199060777
+    keys: []
+    promote_messages: 0
+    subscriptions: []
+    username: us_society_and_politics
+  群組導航 - 分享/推廣:
+    gap_hour: 20
+    id: 1082914435
+    promote_messages: 1
+    username: navi_group_share
+  路邊攤:
+    id: 1240493127
+    subscriptions:
+    - https://t.me/freedom_watch
+    - https://t.me/daily_feminist
+    - https://t.me/web_feed
+    username: FoodStall
+  除了川普谁都行-Trump is fired:
+    id: 1325868312
+    subscriptions:
+    - https://t.me/us_watch
+    - https://t.me/bay_area_community
+    username: united2021
+  陸港台討論區MHKTW forum:
+    id: 1228608296
+    keys:
+    - 大陸
+    - 香港
+    - 台灣
+    - 台湾
+    subscriptions:
+    - https://t.me/freedom_watch
+    - https://t.me/web_feed
+    username: demoforum2412
+promote_messages:
+- '#推廣 https://t.me/weibo_read'
+- '#推廣 https://t.me/douban_read'
+- '#推廣 https://t.me/queer_liberation'
+- '#推廣 https://t.me/life_with_disabilities'
+- '#推廣 https://t.me/one_green_planet'
+- '#推廣 https://t.me/dushufenxiang_chat'
+- '#推廣 https://t.me/english_learning_discuss'
+- '#推廣 https://t.me/news_pdf'
+- '#推廣 https://t.me/liberal_chat'
+- '#推廣 https://t.me/round_table_discuss'
+- '#推廣 https://t.me/dushufenxiang'
+- '#推廣 https://t.me/daily_feminist'
+- '#推廣 https://t.me/feminist_watch'
+- '#推廣 https://t.me/equality_and_rights'
+- '#推廣 https://t.me/freedom_watch'
+- '#推廣 https://t.me/funny_read'
