@@ -69,10 +69,8 @@ def getPromoteMessageHash(message):
 def getMessageHash(post):
     message_id = post.grouped_id
     if post.fwd_from:
-        if post.fwd_from.from_id == None:
-            print('post.fwd_from.from_id None', post.fwd_from)
         message_id = message_id or post.fwd_from.channel_post
-        return '%d=%s' % (getPeerId(post.fwd_from.from_id), str(message_id))
+        return '%s=%s' % (str(getPeerId(post.fwd_from.from_id)), str(message_id))
     message_id = message_id or post.id
     return '%d=%d' % (getPeerId(post.peer_id), message_id)
 
@@ -258,13 +256,18 @@ async def test(client):
         if dialog.is_group:
             entity = dialog.entity
             print(entity.title, entity.id)
+            try:
+                print('https://t.me/' + entity.username)
+            except:
+                ...
 
 async def run():
     client = TelegramClient('session_file', credential['api_id'], credential['api_hash'])
     await client.start(password=credential['password'])
-    await populateSetting(client)
-    await process(client)
-    await client.disconnect()
+    await test(client)
+    # await populateSetting(client)
+    # await process(client)
+    # await client.disconnect()
 
 if __name__ == "__main__":
     loop = asyncio.new_event_loop()
