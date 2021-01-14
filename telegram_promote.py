@@ -236,6 +236,7 @@ async def populateSetting(client):
                     deleted = {target: setting}
                     f.write(yaml.dump(deleted, sort_keys=True, indent=2, allow_unicode=True))
                 continue
+            print('fetch failed', target, str(e))
         setting['id'] = group.id
         if group.username:
             setting['username'] = group.username
