@@ -11,31 +11,9 @@ import time
 import sys
 import random
 from telegram_util import matchKey
+from settings import Settings
 
-existing = plain_db.load('existing')
-group_log = {}
-message_log = {}
-message_loop = plain_db.load('message_loop')
-added_time = plain_db.load('added_time')
-posts_cache = {}
-channels_cache = {}
-
-for key, value in existing.items.items():
-    target = key.split('=')[0]
-    group_log[target] = max(group_log.get(target, 0), value)
-    message = key[len(target) + 1:]
-    message_log[message] = max(group_log.get(message, 0), value)
-
-with open('credential') as f:
-    credential = yaml.load(f, Loader=yaml.FullLoader)
-
-with open('settings') as f:
-    settings = yaml.load(f, Loader=yaml.FullLoader)
-
-all_subscriptions = set()
-for _, setting in settings['groups'].items():
-    for subscription in setting.get('subscriptions', []):
-        all_subscriptions.add(subscription)
+S = Settings()
 
 def getPeerId(peer_id):
     for method in [lambda x: x.channel_id, 
@@ -251,23 +229,16 @@ async def populateSetting(client):
     with open('settings', 'w') as f:
         f.write(yaml.dump(settings, sort_keys=True, indent=2, allow_unicode=True))
 
-async def test(client):
-    async for dialog in client.iter_dialogs():
-        if dialog.is_group:
-            entity = dialog.entity
-            print(entity.title, entity.id)
-            try:
-                print('https://t.me/' + entity.username)
-            except:
-                ...
-
 async def run():
-    client = TelegramClient('session_file', credential['api_id'], credential['api_hash'])
-    await client.start(password=credential['password'])
-    await test(client)
+    clients = {}
+    for user, setting in S.credential['users'].items():
+        client = TelegramClient('session_file_' + user, S.credential['api_id'], S.credential['api_hash'])
+        await client.start(password=setting['password'])
+        clients[user] = client
     # await populateSetting(client)
     # await process(client)
-    # await client.disconnect()
+    for _, client in clients.items():
+        await client.disconnect()
     
 if __name__ == "__main__":
     loop = asyncio.new_event_loop()
