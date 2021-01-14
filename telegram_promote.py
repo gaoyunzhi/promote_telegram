@@ -12,8 +12,11 @@ import sys
 import random
 from telegram_util import matchKey
 from settings import Settings
+from cache import Cache
+from pre_process import preProcess 
 
 S = Settings()
+C = Cache()
 
 def getPeerId(peer_id):
     for method in [lambda x: x.channel_id, 
@@ -200,41 +203,13 @@ async def process(client):
         existing.update(item_hash, int(time.time()))
         return
 
-async def populateSetting(client):
-    targets = list(settings['groups'].items())
-    for target, setting in targets:
-        if setting.get('id'):
-            continue
-        try:
-            group = await client.get_entity(target)
-        except Exception as e:
-            if 'is private' in str(e):
-                del settings['groups'][target]
-                with open('deleted_settings', 'a') as f:
-                    deleted = {target: setting}
-                    f.write(yaml.dump(deleted, sort_keys=True, indent=2, allow_unicode=True))
-                continue
-            print('fetch failed', target, str(e))
-        setting['id'] = group.id
-        if group.username:
-            setting['username'] = group.username
-        if 'joinchat' in str(target):
-            setting['invitation_link'] = target
-        name = group.title
-        del settings['groups'][target]
-        if name not in settings['groups']:
-            settings['groups'][name] = setting
-        else:
-            print('Error! Group name conflict', name, setting)
-    with open('settings', 'w') as f:
-        f.write(yaml.dump(settings, sort_keys=True, indent=2, allow_unicode=True))
-
 async def run():
     clients = {}
     for user, setting in S.credential['users'].items():
         client = TelegramClient('session_file_' + user, S.credential['api_id'], S.credential['api_hash'])
         await client.start(password=setting['password'])
         clients[user] = client
+    await preProcess(clients, S.groups)
     # await populateSetting(client)
     # await process(client)
     for _, client in clients.items():
