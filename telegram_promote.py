@@ -13,7 +13,7 @@ import random
 from telegram_util import matchKey
 from settings import Settings
 from cache import Cache
-from pre_process import preProcess 
+from helper import getClient, preProcess 
 
 S = Settings()
 C = Cache()
@@ -138,11 +138,10 @@ async def populateCache(client, subscription):
         posts_cache[subscription] = posts.messages 
 
 async def process(client):
-    targets = list(settings['groups'].items())
+    targets = list(groups.items())
     random.shuffle(targets)
-    for title, setting in targets:
-        target = setting['id']
-        if time.time() - group_log.get(str(target), 0) < setting.get('gap_hour', 5) * 60 * 60:
+    for gid, setting in targets:
+        if time.time() - S.group_log.get(str(target), 0) < setting.get('gap_hour', 5) * 60 * 60:
             continue
         if not added_time.get(target):
             added_time.update(target, int(time.time()))
@@ -210,8 +209,7 @@ async def run():
         await client.start(password=setting['password'])
         clients[user] = client
     await preProcess(clients, S.groups)
-    # await populateSetting(client)
-    # await process(client)
+    # await process(clients)
     for _, client in clients.items():
         await client.disconnect()
     
