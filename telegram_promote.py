@@ -3,9 +3,7 @@
 
 from telethon import TelegramClient
 from telethon.tl.functions.messages import GetHistoryRequest
-import yaml
 import asyncio
-import plain_db
 from datetime import datetime
 import time
 import sys

@@ -1,3 +1,5 @@
+import yaml
+
 def getClient(clients, setting):
     if setting.get('promoter'):
         return clients[setting.get('promoter')]
