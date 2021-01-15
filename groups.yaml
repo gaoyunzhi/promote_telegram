@@ -2,7 +2,7 @@
   gap_hour: 20
   promote_messages: 1
   promoter: zhou
-  promoting: 0
+  promoting: 1
   title: 群組導航 - 分享/推廣
   username: navi_group_share
 1083906692:
@@ -124,7 +124,7 @@
 1239301596:
   promote_messages: 1
   promoter: zhou
-  promoting: 0
+  promoting: 1
   title: Telegram 群組推廣
   username: tgroupsforzh
 1240493127:
