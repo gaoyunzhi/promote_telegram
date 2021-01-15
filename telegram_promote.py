@@ -48,7 +48,7 @@ def getHash(target, post):
     return '%s=%s' % (str(target), getMessageHash(post))
 
 async def log(client, group, posts):
-    debug_group = await C.get_entity(credential['debug_group'])
+    debug_group = await C.get_entity(S.credential['debug_group'])
     await client.send_message(debug_group, getLink(group, posts[0]))
 
 async def logGroupPosts(client, group, group_posts):
@@ -60,7 +60,7 @@ async def logGroupPosts(client, group, group_posts):
         item_hash = 'forward=' + ''.join(message.raw_text.split())[:30]
         if S.existing.get(item_hash):
             continue
-        forward_group = await C.get_entity(client, credential['forward_group'])
+        forward_group = await C.get_entity(client, S.credential['forward_group'])
         post_ids = list(getPostIds(message, group_posts.messages))
         await client.forward_messages(forward_group, post_ids, group)
         await client.send_message(forward_group, 'id: %d chat: %s' % (
@@ -93,7 +93,7 @@ async def process(clients):
             continue
         client = getClient(clients, setting)
         try:
-            group =  await client.get_entity(gid)
+            group = await client.get_entity(gid)
         except Exception as e:
             print('telegram_promote Error group fetching fail', gid, setting, str(e))
             continue
@@ -139,6 +139,7 @@ async def run():
         client = TelegramClient('session_file_' + user, S.credential['api_id'], S.credential['api_hash'])
         await client.start(password=setting['password'])
         clients[user] = client
+    await clients['zhou'].get_dialogs() # only for new added promote_user
     await preProcess(clients, S.groups)
     await process(clients)
     for _, client in clients.items():

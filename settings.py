@@ -21,7 +21,7 @@ class Settings(object):
         self.block_keys = self.settings.get('block_keys')
         self.block_ids = self.settings.get('block_ids')
         self.promote_user_ids = self.credential['users'].keys()
-        self.promote_messages = self,settings.get('promote_messages')
+        self.promote_messages = self.settings.get('promote_messages')
 
     def _populateExisting(self):
         self.group_log = {}
@@ -48,7 +48,7 @@ class Settings(object):
     def isBlockedMessage(self, message):
         if matchKey(message.raw_text, self.block_keys):
             return True
-        if message.from_id and getPeerId(message.from_id) in (self.block_ids + self.promote_user_ids):
+        if message.from_id and getPeerId(message.from_id) in (self.block_ids + list(self.promote_user_ids)):
             return True
         if message.fwd_from and getPeerId(message.fwd_from.from_id) in self.block_ids:
             return True
