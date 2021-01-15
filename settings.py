@@ -21,6 +21,7 @@ class Settings(object):
         self.block_keys = self.settings.get('block_keys')
         self.block_ids = self.settings.get('block_ids')
         self.promote_user_ids = self.credential['users'].keys()
+        self.promote_messages = self,settings.get('promote_messages')
 
     def _populateExisting(self):
         self.group_log = {}
@@ -51,6 +52,10 @@ class Settings(object):
             return True
         if message.fwd_from and getPeerId(message.fwd_from.from_id) in self.block_ids:
             return True
+
+    def getPromoteMessage(self):
+        loop_index = self.message_loop.get('promote_messages', 0) % len(S.promote_messages)
+        return S.promote_messages[loop_index]
 
     async def populateIdMap(self, client, subscription):
         channel = await client.get_entity(subscription)

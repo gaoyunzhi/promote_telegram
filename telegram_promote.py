@@ -49,18 +49,8 @@ def getMessageHash(post):
 def getHash(target, post):
     return '%s=%s' % (str(target), getMessageHash(post))
 
-def removeGroup(title):
-    setting = settings['groups'][title]
-    del settings['groups'][title]
-    with open('deleted_settings', 'a') as f:
-        deleted = {title: setting}
-        f.write(yaml.dump(deleted, sort_keys=True, indent=2, allow_unicode=True))
-        f.write('\n\n')
-    with open('settings', 'w') as f:
-        f.write(yaml.dump(settings, sort_keys=True, indent=2, allow_unicode=True))
-
 async def log(client, group, posts):
-    debug_group = await client.get_entity(credential['debug_group'])
+    debug_group = await C.get_entity(credential['debug_group'])
     await client.send_message(debug_group, getLink(group, posts[0]))
 
 async def logGroupPosts(client, group, group_posts):
@@ -83,33 +73,19 @@ async def trySend(client, group, subscription, post):
     if time.time() - datetime.timestamp(post.date) < 5 * 60 * 60:
         return
     item_hash = getHash(group.id, post)
-    if time.time() - message_log.get(getMessageHash(post), 0) < 12 * 60 * 60:
+    if time.time() - S.message_log.get(getMessageHash(post), 0) < 12 * 60 * 60:
         return
-    if existing.get(item_hash):
+    if S.existing.get(item_hash):
         return
-    post_ids = list(getPostIds(post, posts_cache[subscription]))
+    post_ids = list(getPostIds(post, C.getPostsCached(subscription)))
     try:
-        results = await client.forward_messages(group, post_ids, channels_cache[subscription])
+        results = await client.forward_messages(group, post_ids, C.getChannelCached(subscription))
     except Exception as e:
         print(group.title, str(e))
         return
     await log(client, group, results)
-    print('promoted!', group.title)
-    existing.update(item_hash, int(time.time()))
+    S.existing.update(item_hash, int(time.time()))
     return True
-
-async def populateCache(client, subscription):
-    target = settings['id_map'].get(subscription)
-    if not channels_cache.get(subscription):
-        channels_cache[subscription] = await client.get_entity(target or subscription)
-    if not target:
-        settings['id_map'][subscription] = channels_cache[subscription].id
-        with open('settings', 'w') as f:
-            f.write(yaml.dump(settings, sort_keys=True, indent=2, allow_unicode=True))
-    if not posts_cache.get(subscription):
-        posts = await client(GetHistoryRequest(peer=channels_cache[subscription], limit=30,
-            offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
-        posts_cache[subscription] = posts.messages 
 
 async def process(clients):
     targets = list(S.groups.items())
@@ -142,24 +118,21 @@ async def process(clients):
                         return
 
         for subscription in setting.get('subscriptions', []):
-            await populateCache(client, subscription)
-            for post in posts_cache[subscription][:22]:
+            posts = await C.getPosts(client, subscription, S)
+            for post in posts[:22]:
                 result = await trySend(client, group, subscription, post)
                 if result:
                     return
         if not setting.get('promote_messages'):
             continue
-        promote_messages = settings.get('promote_messages')
-        loop_index = message_loop.get('promote_messages', 0) % len(promote_messages)
-        message = promote_messages[loop_index]
+        message = S.getPromoteMessage()
         item_hash = '%s=%s' % (str(target), getPromoteMessageHash(message))
-        if existing.get(item_hash):
+        if S.existing.get(item_hash):
             continue
         result = await client.send_message(group, message)
         await log(client, group, [result])
-        message_loop.inc('promote_messages', 1)
-        print('promoted!', group.title)
-        existing.update(item_hash, int(time.time()))
+        S.message_loop.inc('promote_messages', 1)
+        S.existing.update(item_hash, int(time.time()))
         return
 
 async def run():
