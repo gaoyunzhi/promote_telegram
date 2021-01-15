@@ -69,11 +69,12 @@
   username: freedom8964
 1199060777:
   debug: 1
+  kicked: 1
   gap_hour: 0
   keys: []
   promote_messages: 1
-  promoter: zhou
-  promoting: 1
+  promoter: 0
+  promoting: 0
   subscriptions: []
   title: 美国社会与政治
   username: us_society_and_politics

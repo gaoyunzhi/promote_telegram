@@ -89,12 +89,8 @@ async def process(clients):
     targets = list(S.groups.items())
     random.shuffle(targets)
     for gid, setting in targets:
-        if not setting.get('promoter') or not setting.get('promoting'):
+        if not setting.get('promoter') and setting.get('kicked'):
             continue
-        print(setting['title'], S.shouldSendToGroup(gid, setting))
-        if not S.shouldSendToGroup(gid, setting):
-            continue
-
         client = getClient(clients, setting)
         try:
             group = await client.get_entity(gid)
@@ -106,6 +102,9 @@ async def process(clients):
             offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
         if not setting.get('debug'):
             await logGroupPosts(client, group, group_posts)
+        if (not setting.get('promoter') or not setting.get('promoting') or 
+            not S.shouldSendToGroup(gid, setting)):
+            continue
         if (not setting.get('debug')) and (not shouldSend(group_posts.messages, setting)):
             continue
 

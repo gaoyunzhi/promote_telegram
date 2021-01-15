@@ -3,7 +3,7 @@ import yaml
 def getClient(clients, setting):
     if setting.get('promoter'):
         return clients[setting.get('promoter')]
-    return next(iter(mydict.values()))
+    return next(iter(clients.values()))
 
 def getPostIds(target_post, posts):
     if target_post.grouped_id:
