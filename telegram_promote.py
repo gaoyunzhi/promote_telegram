@@ -48,7 +48,7 @@ def getHash(target, post):
     return '%s=%s' % (str(target), getMessageHash(post))
 
 async def log(client, group, posts):
-    debug_group = await C.get_entity(S.credential['debug_group'])
+    debug_group = await C.get_entity(client, S.credential['debug_group'])
     await client.send_message(debug_group, getLink(group, posts[0]))
 
 async def logGroupPosts(client, group, group_posts):
@@ -124,7 +124,7 @@ async def process(clients):
         if not setting.get('promote_messages'):
             continue
         message = S.getPromoteMessage()
-        item_hash = '%s=%s' % (str(target), getPromoteMessageHash(message))
+        item_hash = '%s=%s' % (str(gid), getPromoteMessageHash(message))
         if S.existing.get(item_hash):
             continue
         result = await client.send_message(group, message)

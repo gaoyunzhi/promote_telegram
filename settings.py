@@ -54,8 +54,8 @@ class Settings(object):
             return True
 
     def getPromoteMessage(self):
-        loop_index = self.message_loop.get('promote_messages', 0) % len(S.promote_messages)
-        return S.promote_messages[loop_index]
+        loop_index = self.message_loop.get('promote_messages', 0) % len(self.promote_messages)
+        return self.promote_messages[loop_index]
 
     async def populateIdMap(self, client, subscription):
         channel = await client.get_entity(subscription)
