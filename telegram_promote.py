@@ -110,7 +110,6 @@ async def process(clients):
 
         if setting.get('keys'):
             for subscription in S.all_subscriptions:
-                print(subscription)
                 posts = await C.getPosts(client, subscription, S)
                 for post in posts:
                     if not matchKey(post.raw_text, setting.get('keys')):
