@@ -137,26 +137,17 @@ async def populateCache(client, subscription):
             offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
         posts_cache[subscription] = posts.messages 
 
-async def process(client):
-    targets = list(groups.items())
+async def process(clients):
+    targets = list(S.groups.items())
     random.shuffle(targets)
     for gid, setting in targets:
-        if time.time() - S.group_log.get(str(target), 0) < setting.get('gap_hour', 5) * 60 * 60:
+        if not S.shouldSendToGroup(gid, setting) or not setting.get('promoter'):
             continue
-        if not added_time.get(target):
-            added_time.update(target, int(time.time()))
-        if time.time() - added_time.get(target) < 48 * 60 * 60: # 新加群不发言
-            continue
-
-        if 'debug' in sys.argv:
-            username = setting.get('username')
-            if username:
-                username = 'https://t.me/' + username
-            print('fetching', title, setting['id'], username) 
+        client = getClient(clients, setting)
         try:
-            group =  await client.get_entity(target)
+            group =  await client.get_entity(gid)
         except Exception as e:
-            print('telegram_promote group fetching fail', target, str(e))
+            print('telegram_promote group fetching fail', gid, setting, str(e))
             if 'is private' in str(e):
                 removeGroup(title)
                 continue
@@ -209,7 +200,7 @@ async def run():
         await client.start(password=setting['password'])
         clients[user] = client
     await preProcess(clients, S.groups)
-    # await process(clients)
+    await process(clients)
     for _, client in clients.items():
         await client.disconnect()
     

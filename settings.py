@@ -1,5 +1,6 @@
 import plain_db
 import yaml
+import time
 
 class Settings(object):
     def __init__(self):
@@ -29,3 +30,10 @@ class Settings(object):
         for _, setting in self.groups.items():
             for subscription in setting.get('subscriptions', []):
                 self.all_subscriptions.add(subscription)
+
+    def shouldSendToGroup(self, gid, setting):
+        if time.time() - self.group_log.get(str(gid), 0) < setting.get('gap_hour', 5) * 60 * 60:
+            return False
+        if not self.added_time.get(gid):
+            self.added_time.update(gid, int(time.time()))
+        return time.time() - self.added_time.get(gid) > 48 * 60 * 60 # 新加群不发言
