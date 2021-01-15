@@ -28,6 +28,7 @@ def getPeerId(peer_id):
 
 async def preProcess(clients, groups):
     for gid, setting in list(groups.items()):
+        setting['promoting'] = 0
         try:
             int(gid)
             continue
@@ -47,3 +48,6 @@ async def preProcess(clients, groups):
         groups[group.id] = setting
         with open('groups', 'w') as f:
             f.write(yaml.dump(groups, sort_keys=True, indent=2, allow_unicode=True))
+    with open('groups', 'w') as f:
+        f.write(yaml.dump(groups, sort_keys=True, indent=2, allow_unicode=True))
+   
