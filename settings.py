@@ -20,7 +20,7 @@ class Settings(object):
         self.watching_keys = self.settings.get('watching_keys')
         self.block_keys = self.settings.get('block_keys')
         self.block_ids = self.settings.get('block_ids')
-        self.promote_user_ids = self.credential['users'].keys()
+        self.promote_user_ids = [item['id'] for item in self.credential['users'].values()]
         self.promote_messages = self.settings.get('promote_messages')
 
     def _populateExisting(self):
@@ -52,6 +52,7 @@ class Settings(object):
             return True
         if message.fwd_from and getPeerId(message.fwd_from.from_id) in self.block_ids:
             return True
+        return False
 
     def getPromoteMessage(self):
         loop_index = self.message_loop.get('promote_messages', 0) % len(self.promote_messages)
