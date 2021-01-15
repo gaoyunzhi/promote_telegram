@@ -16,18 +16,12 @@ class Settings(object):
             self.settings = yaml.load(f, Loader=yaml.FullLoader)
         with open('groups.yaml') as f:
             self.groups = yaml.load(f, Loader=yaml.FullLoader)
-        self.test()
         self._populateSubscription()
         self.watching_keys = self.settings.get('watching_keys')
         self.block_keys = self.settings.get('block_keys')
         self.block_ids = self.settings.get('block_ids')
         self.promote_user_ids = [item['id'] for item in self.credential['users'].values()]
         self.promote_messages = self.settings.get('promote_messages')
-
-    def test(self):
-        for gid, setting in self.groups.items():
-            if 'username' not in setting:
-                print(gid, setting)
 
     def _populateExisting(self):
         self.group_log = {}
