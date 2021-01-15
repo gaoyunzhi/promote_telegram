@@ -13,34 +13,25 @@ import random
 from telegram_util import matchKey
 from settings import Settings
 from cache import Cache
-from helper import getClient, preProcess 
+from helper import getClient, preProcess, getPostIds, getPeerId, getLink
 
 S = Settings()
 C = Cache()
 
-def getPeerId(peer_id):
-    for method in [lambda x: x.channel_id, 
-        lambda x: x.chat_id, lambda x: x.user_id]:
-        try:
-            return method(peer_id)
-        except:
-            ...
-
 def shouldSend(messages, setting):
     for message in messages:
-        # todo 法轮功的不算，那个鄂州亚太的不算
-        if message.from_id and getPeerId(message.from_id) in [521358914, 771096498, 609517172, 1180078433]:
+        if S.isBlockedMessage(message):
             continue
         if message.action:
             continue
         if time.time() - datetime.timestamp(message.date) < setting.get('wait_minute', 30) * 60:
             if 'debug' in sys.argv:
-                print(message)
+                print('need wait due to message', setting['title'], message.raw_text[:20])
             return False # 不打断现有对话
     if time.time() - datetime.timestamp(messages[0].date) > 24 * 60 * 60:
         return True
     for message in messages[:5]:
-        if message.from_id and getPeerId(message.from_id) == credential['user_id']:
+        if message.from_id and getPeerId(message.from_id) in S.promote_user_ids:
             return False
     return True
 
@@ -58,14 +49,6 @@ def getMessageHash(post):
 def getHash(target, post):
     return '%s=%s' % (str(target), getMessageHash(post))
 
-def getPostIds(target_post, posts):
-    if target_post.grouped_id:
-        for post in posts[::-1]:
-            if post.grouped_id == target_post.grouped_id:
-                yield post.id
-    else:
-        yield target_post.id
-
 def removeGroup(title):
     setting = settings['groups'][title]
     del settings['groups'][title]
@@ -75,11 +58,6 @@ def removeGroup(title):
         f.write('\n\n')
     with open('settings', 'w') as f:
         f.write(yaml.dump(settings, sort_keys=True, indent=2, allow_unicode=True))
-                
-def getLink(group, message):
-    if group.username:
-        return 'https://t.me/%s/%d' % (group.username, message.id)
-    return 'https://t.me/c/%s/%d' % (group.id, message.id)
 
 async def log(client, group, posts):
     debug_group = await client.get_entity(credential['debug_group'])
@@ -87,23 +65,19 @@ async def log(client, group, posts):
 
 async def logGroupPosts(client, group, group_posts):
     for message in group_posts.messages:
-        if not matchKey(message.raw_text, settings.get('watching_keys')):
+        if not matchKey(message.raw_text, S.watching_keys):
             continue
-        if matchKey(message.raw_text, settings.get('block_keys')):
-            continue
-        if getPeerId(message.from_id) in settings.get('block_ids'):
-            continue
-        if message.fwd_from and getPeerId(message.fwd_from.from_id) in settings.get('block_ids'):
+        if S.isBlockedMessage(message):
             continue
         item_hash = 'forward=' + ''.join(message.raw_text.split())[:30]
-        if existing.get(item_hash):
+        if S.existing.get(item_hash):
             continue
-        forward_group = await client.get_entity(credential['forward_group'])
+        forward_group = await C.get_entity(client, credential['forward_group'])
         post_ids = list(getPostIds(message, group_posts.messages))
         await client.forward_messages(forward_group, post_ids, group)
         await client.send_message(forward_group, 'id: %d chat: %s' % (
             getPeerId(message.from_id), getLink(group, message)), link_preview=False)
-        existing.update(item_hash, 1)
+        S.existing.update(item_hash, 1)
 
 async def trySend(client, group, subscription, post):
     if time.time() - datetime.timestamp(post.date) < 5 * 60 * 60:
@@ -147,10 +121,7 @@ async def process(clients):
         try:
             group =  await client.get_entity(gid)
         except Exception as e:
-            print('telegram_promote group fetching fail', gid, setting, str(e))
-            if 'is private' in str(e):
-                removeGroup(title)
-                continue
+            print('telegram_promote Error group fetching fail', gid, setting, str(e))
             continue
 
         group_posts = await client(GetHistoryRequest(peer=group, limit=10,
@@ -159,13 +130,11 @@ async def process(clients):
             await logGroupPosts(client, group, group_posts)
         if (not setting.get('debug')) and (not shouldSend(group_posts.messages, setting)):
             continue
-        # if setting.get('debug'):
-        #     print(group.id, group.title, 'shouldsend', shouldSend(posts.messages, setting))
 
         if setting.get('keys'):
-            for subscription in all_subscriptions:
-                await populateCache(client, subscription)
-                for post in posts_cache[subscription]:
+            for subscription in S.all_subscriptions:
+                posts = await C.getPosts(client, subscription, S)
+                for post in posts:
                     if not matchKey(post.raw_text, setting.get('keys')):
                         continue
                     result = await trySend(client, group, subscription, post)

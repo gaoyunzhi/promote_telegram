@@ -1,6 +1,8 @@
 import plain_db
 import yaml
 import time
+from helper import getPeerId
+from telegram_util import matchKey
 
 class Settings(object):
     def __init__(self):
@@ -15,6 +17,10 @@ class Settings(object):
         with open('groups.yaml') as f:
             self.groups = yaml.load(f, Loader=yaml.FullLoader)
         self._populateSubscription()
+        self.watching_keys = self.settings.get('watching_keys')
+        self.block_keys = self.settings.get('block_keys')
+        self.block_ids = self.settings.get('block_ids')
+        self.promote_user_ids = self.credential['users'].keys()
 
     def _populateExisting(self):
         self.group_log = {}
@@ -37,3 +43,17 @@ class Settings(object):
         if not self.added_time.get(gid):
             self.added_time.update(gid, int(time.time()))
         return time.time() - self.added_time.get(gid) > 48 * 60 * 60 # 新加群不发言
+
+    def isBlockedMessage(self, message):
+        if matchKey(message.raw_text, self.block_keys):
+            return True
+        if message.from_id and getPeerId(message.from_id) in (self.block_ids + self.promote_user_ids):
+            return True
+        if message.fwd_from and getPeerId(message.fwd_from.from_id) in self.block_ids:
+            return True
+
+    async def populateIdMap(self, client, subscription):
+        channel = await client.get_entity(subscription)
+        self.setting['id_map'][subscription] = channel.id
+        with open('settings.yaml', 'w') as f:
+            f.write(yaml.dump(self.settings, sort_keys=True, indent=2, allow_unicode=True))
