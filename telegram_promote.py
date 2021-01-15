@@ -81,6 +81,7 @@ async def trySend(client, group, subscription, post):
     except Exception as e:
         print(group.title, str(e))
         return
+    print('promoted!', group.title)
     await log(client, group, results)
     S.existing.update(item_hash, int(time.time()))
     return True
@@ -131,6 +132,7 @@ async def process(clients):
         if S.existing.get(item_hash):
             continue
         result = await client.send_message(group, message)
+        print('promoted!', group.title)
         await log(client, group, [result])
         S.message_loop.inc('promote_messages', 1)
         S.existing.update(item_hash, int(time.time()))
