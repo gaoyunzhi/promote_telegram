@@ -89,9 +89,12 @@ async def process(clients):
     targets = list(S.groups.items())
     random.shuffle(targets)
     for gid, setting in targets:
-        if (not S.shouldSendToGroup(gid, setting) or not setting.get('promoter') or 
-            not setting.get('promoting')):
+        if not setting.get('promoter') or not setting.get('promoting'):
             continue
+        print(setting['title'], S.shouldSendToGroup(gid, setting))
+        if not S.shouldSendToGroup(gid, setting):
+            continue
+
         client = getClient(clients, setting)
         try:
             group = await client.get_entity(gid)
