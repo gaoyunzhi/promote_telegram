@@ -89,7 +89,7 @@ async def process(clients):
     targets = list(S.groups.items())
     random.shuffle(targets)
     for gid, setting in targets:
-        if not setting.get('promoter') and setting.get('kicked'):
+        if setting.get('kicked'):
             continue
         client = getClient(clients, setting)
         try:
