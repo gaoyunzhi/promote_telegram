@@ -43,7 +43,7 @@
   username: three001
 1150318829:
   promoter: zhou
-  promoting: 0
+  promoting: 1
   subscriptions:
   - https://t.me/freedom_watch
   title: 海外秦晖先生著作历史读书阅读心得分享群
@@ -52,7 +52,7 @@
   keys:
   - 上海
   promoter: zhou
-  promoting: 0
+  promoting: 1
   subscriptions:
   - https://t.me/web_feed
   title: ♥️上海频道电报讨论組Shanghai魔都電報群
@@ -165,7 +165,7 @@
   username: whfyyq
 1261458144:
   promoter: zhou
-  promoting: 0
+  promoting: 1
   subscriptions:
   - https://t.me/daily_feminist
   - https://t.me/womxn_union
@@ -191,8 +191,8 @@
   - https://t.me/web_feed
   title: 中国自由公民党海外群
 1274456310:
-  promoter: 0
-  promoting: 0
+  promoter: zhou
+  promoting: 1
   subscriptions:
   - https://t.me/freedom_watch
   - https://t.me/us_watch

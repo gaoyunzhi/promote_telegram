@@ -89,7 +89,8 @@ async def process(clients):
     targets = list(S.groups.items())
     random.shuffle(targets)
     for gid, setting in targets:
-        if not S.shouldSendToGroup(gid, setting) or not setting.get('promoter'):
+        if (not S.shouldSendToGroup(gid, setting) or not setting.get('promoter') or 
+            not setting.get('promoting')):
             continue
         client = getClient(clients, setting)
         try:
@@ -107,6 +108,7 @@ async def process(clients):
 
         if setting.get('keys'):
             for subscription in S.all_subscriptions:
+                print(subscription)
                 posts = await C.getPosts(client, subscription, S)
                 for post in posts:
                     if not matchKey(post.raw_text, setting.get('keys')):
@@ -139,7 +141,7 @@ async def run():
         client = TelegramClient('session_file_' + user, S.credential['api_id'], S.credential['api_hash'])
         await client.start(password=setting['password'])
         clients[user] = client
-    await clients['zhou'].get_dialogs() # only for new added promote_user
+        await client.get_dialogs()
     await preProcess(clients, S.groups)
     await process(clients)
     for _, client in clients.items():
