@@ -46,8 +46,7 @@ async def preProcess(clients, groups):
         setting['title'] = group.title
         del settings['groups'][gid]
         groups[group.id] = setting
-        with open('groups', 'w') as f:
+        with open('groups.yaml', 'w') as f:
             f.write(yaml.dump(groups, sort_keys=True, indent=2, allow_unicode=True))
-    with open('groups', 'w') as f:
+    with open('groups.yaml', 'w') as f:
         f.write(yaml.dump(groups, sort_keys=True, indent=2, allow_unicode=True))
-   
