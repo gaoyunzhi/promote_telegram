@@ -148,6 +148,7 @@
   - https://t.me/web_feed
   title: 品韭观海
 1252453395:
+  kicked: 1
   promoter: 0
   promoting: 0
   subscriptions:
@@ -288,8 +289,8 @@
   title: 鱼与熊掌
   username: tullymonster77
 1410337085:
-  promoter: 0
-  promoting: 0
+  promoter: cat
+  promoting: 1
   subscriptions:
   - https://t.me/freedom_watch
   - https://t.me/us_watch
