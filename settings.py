@@ -20,6 +20,7 @@ class Settings(object):
         self.watching_keys = self.settings.get('watching_keys')
         self.block_keys = self.settings.get('block_keys')
         self.block_ids = self.settings.get('block_ids')
+        self.no_forward_ids = self.settings.get('no_forward_ids')
         self.promote_user_ids = [item['id'] for item in self.credential['users'].values()]
         self.promote_messages = self.settings.get('promote_messages')
 
@@ -51,6 +52,11 @@ class Settings(object):
         if message.from_id and getPeerId(message.from_id) in (self.block_ids + list(self.promote_user_ids)):
             return True
         if message.fwd_from and getPeerId(message.fwd_from.from_id) in self.block_ids:
+            return True
+        return False
+
+    def isNoForwardMessage(self, message):
+        if message.from_id and getPeerId(message.from_id) in self.no_forward_ids:
             return True
         return False
 
