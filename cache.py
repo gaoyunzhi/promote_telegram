@@ -10,7 +10,7 @@ class Cache(object):
         if readOnly:
             key = eid
         else:
-            key = hash(client) + str(eid) 
+            key = str(hash(client)) + str(eid) 
         if key not in self.entities:
             self.entities[key] = await client.get_entity(eid)
         return self.entities[key]
