@@ -81,7 +81,7 @@ async def trySend(client, group, subscription, post):
     try:
         results = await client.forward_messages(group, post_ids, C.getChannelCached(subscription))
     except Exception as e:
-        print(group.title, str(e))
+        print('telegram_promote forward fail', group.title, subscription, post_ids, str(e))
         return
     print('promoted!', group.title)
     await log(client, group, results)
