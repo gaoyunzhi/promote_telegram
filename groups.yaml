@@ -69,10 +69,10 @@
   username: freedom8964
 1199060777:
   debug: 1
-  kicked: 1
   gap_hour: 0
-  keys: 
+  keys:
   - 美国11
+  kicked: 1
   promote_messages: 1
   promoter: zhou
   promoting: 1
@@ -147,6 +147,11 @@
   - https://t.me/people_sing
   - https://t.me/web_feed
   title: 品韭观海
+1245471511:
+  promote_messages: 0
+  promoter: 0
+  title: 天會再藍——百無禁忌開心暢聊群
+  username: free2roc
 1252453395:
   kicked: 1
   promoter: 0

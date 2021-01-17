@@ -43,7 +43,7 @@ async def preProcess(clients, groups):
         if 'joinchat' in str(gid):
             setting['invitation_link'] = gid
         setting['title'] = group.title
-        del settings['groups'][gid]
+        del groups[gid]
         groups[group.id] = setting
         with open('groups.yaml', 'w') as f:
             f.write(yaml.dump(groups, sort_keys=True, indent=2, allow_unicode=True))
