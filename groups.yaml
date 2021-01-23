@@ -6,8 +6,9 @@
   title: 群組導航 - 分享/推廣
   username: navi_group_share
 1083906692:
-  promoter: wuish
-  promoting: 1
+  kicked: 1
+  promoter: 0
+  promoting: 0
   subscriptions:
   - https://t.me/freedom_watch
   - https://t.me/daily_feminist
@@ -48,6 +49,13 @@
   - https://t.me/freedom_watch
   title: 海外秦晖先生著作历史读书阅读心得分享群
   username: qinhuixiansheng
+1169202514:
+  promote_messages: 1
+  promoter: cat
+  subscriptions:
+  - https://t.me/freedom_watch
+  title: 图森破故事会
+  username: tusenpogushihui
 1169959661:
   keys:
   - 上海
