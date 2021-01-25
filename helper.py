@@ -18,6 +18,12 @@ def getLink(group, message):
         return 'https://t.me/%s/%d' % (group.username, message.id)
     return 'https://t.me/c/%s/%d' % (group.id, message.id)
 
+def getDisplayLink(group, message, groups):
+    invitation_link = groups[group.id].get('invitation_link')
+    if invitation_link:
+        suffix = ' <a href="%s">进群</a>'
+    return '<a href="%s">%s</a>' % (getLink(group, message), group.title)
+
 def getPeerId(peer_id):
     for method in [lambda x: x.channel_id, 
         lambda x: x.chat_id, lambda x: x.user_id]:
