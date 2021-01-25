@@ -55,10 +55,10 @@ async def logGroupPosts(client, group, group_posts):
     for message in group_posts.messages:
         if not matchKey(message.raw_text, S.watching_keys):
             continue
-        # if S.isBlockedMessage(message):
-        #     continue
-        # if S.isNoForwardMessage(message):
-        #     continue
+        if S.isBlockedMessage(message):
+            continue
+        if S.isNoForwardMessage(message):
+            continue
         item_hash = 'forward=' + ''.join(message.raw_text.split())[:30]
         if S.existing.get(item_hash):
             continue
