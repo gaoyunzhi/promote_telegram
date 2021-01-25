@@ -22,8 +22,8 @@ def getDisplayLink(group, message, groups):
     invitation_link = groups[group.id].get('invitation_link')
     suffix = ''
     if invitation_link:
-        suffix = ' <a href="%s">进群</a>' % invitation_link
-    return '<a href="%s">%s</a>%s' % (getLink(group, message), group.title, suffix)
+        suffix = ' [进群](%s)' % invitation_link
+    return '[%s](%s)%s' % (group.title, getLink(group, message), suffix)
 
 def getPeerId(peer_id):
     for method in [lambda x: x.channel_id, 

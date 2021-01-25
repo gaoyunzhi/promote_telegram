@@ -65,11 +65,9 @@ async def logGroupPosts(client, group, group_posts):
         forward_group = await C.get_entity(client, S.credential['forward_group'])
         post_ids = list(getPostIds(message, group_posts.messages))
         await client.forward_messages(forward_group, post_ids, group)
-        print(message)
-        print(group)
         await client.send_message(forward_group, 'id: %s chat: %s' % (
             str(getPeerId(message.from_id)), getDisplayLink(group, message, S.groups)), 
-            link_preview=False, parse_mode='Markdown')
+            link_preview=False)
         S.existing.update(item_hash, 1)
 
 async def trySend(client, group, subscription, post):
