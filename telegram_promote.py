@@ -11,7 +11,7 @@ import random
 from telegram_util import matchKey
 from settings import Settings
 from cache import Cache
-from helper import getClient, preProcess, getPostIds, getPeerId, getDisplayLink
+from helper import getClient, preProcess, getPostIds, getPeerId, getDisplayLink, getLink
 
 S = Settings()
 C = Cache()
@@ -49,7 +49,7 @@ def getHash(target, post):
 
 async def log(client, group, posts):
     debug_group = await C.get_entity(client, S.credential['debug_group'])
-    await client.send_message(debug_group, getDisplayLink(group, posts[0], S.groups))
+    await client.send_message(debug_group, getLink(group, posts[0], S.groups))
 
 async def logGroupPosts(client, group, group_posts):
     for message in group_posts.messages:
@@ -68,7 +68,8 @@ async def logGroupPosts(client, group, group_posts):
         print(message)
         print(group)
         await client.send_message(forward_group, 'id: %s chat: %s' % (
-            str(getPeerId(message.from_id)), getDisplayLink(group, message, S.groups)), link_preview=False)
+            str(getPeerId(message.from_id)), getDisplayLink(group, message, S.groups)), 
+            link_preview=False, parse_mode='Markdown')
         S.existing.update(item_hash, 1)
 
 async def trySend(client, group, subscription, post):
