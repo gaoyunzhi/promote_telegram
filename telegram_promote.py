@@ -49,7 +49,7 @@ def getHash(target, post):
 
 async def log(client, group, posts):
     debug_group = await C.get_entity(client, S.credential['debug_group'])
-    await client.send_message(debug_group, getLink(group, posts[0], S.groups))
+    await client.send_message(debug_group, getLink(group, posts[0]))
 
 async def logGroupPosts(client, group, group_posts):
     for message in group_posts.messages:

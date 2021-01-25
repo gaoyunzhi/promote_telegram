@@ -156,8 +156,10 @@
   - https://t.me/web_feed
   title: 品韭观海
 1245471511:
-  promote_messages: 0
-  promoter: 0
+  promote_messages: 1
+  promoter: lani
+  subscriptions:
+  - https://t.me/freedom_watch
   title: 天會再藍——百無禁忌開心暢聊群
   username: free2roc
 1252453395:
@@ -242,6 +244,13 @@
   - https://t.me/web_feed
   title: 華人電報群
   username: huarendianbaoqun
+1325531930:
+  promoter: zhou
+  promoting: 1
+  subscriptions:
+  - https://t.me/freedom_watch
+  title: 讲真话+反洗脑=救国
+  username: FreeChina404FuckCCP
 1325868312:
   promoter: cat
   promoting: 0
@@ -397,6 +406,13 @@
   subscriptions:
   - https://t.me/freedom_watch
   title: 厨哥一勺烩
+1475291102:
+  promoter: lani
+  promoting: 1
+  subscriptions:
+  - https://t.me/freedom_watch
+  title: 菟國第四帝國
+  username: ttsmrgroup
 1482571409:
   promoter: lani
   promoting: 1
