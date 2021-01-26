@@ -5,6 +5,9 @@ def getClient(clients, setting):
         return clients[setting.get('promoter')]
     return next(iter(clients.values()))
 
+def getPromoter(clients, setting):
+    
+
 def getPostIds(target_post, posts):
     if target_post.grouped_id:
         for post in posts[::-1]:

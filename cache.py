@@ -28,10 +28,5 @@ class Cache(object):
     def getPostsCached(self, subscription):
         return self.posts[subscription]
 
-    def getChannelCached(self, subscription):
-        return self.channels[subscription]
-
-
-
-
-    
+    def getChannel(self, client, subscription):
+        return self.get_entity(client, S.settings['id_map'][subscription])    
