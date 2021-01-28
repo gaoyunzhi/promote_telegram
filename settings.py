@@ -21,6 +21,7 @@ class Settings(object):
         self.block_keys = self.settings.get('block_keys')
         self.block_ids = self.settings.get('block_ids')
         self.no_forward_ids = self.settings.get('no_forward_ids')
+        self.default_client_name = self.settings.get('default_client_name')
         self.promote_user_ids = [item['id'] for item in self.credential['users'].values()]
         self.promote_messages = self.settings.get('promote_messages')
 

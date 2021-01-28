@@ -1,9 +1,8 @@
 import yaml
 
 def getClient(clients, setting):
-    if setting.get('promoter'):
-        return clients[setting.get('promoter')]
-    return next(iter(clients.values()))
+    client_name = setting.get('promoter') or next(iter(clients.keys()))
+    return client_name, clients[client_name]
 
 def getPostIds(target_post, posts):
     if target_post.grouped_id:

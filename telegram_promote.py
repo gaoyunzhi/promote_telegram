@@ -51,7 +51,17 @@ async def log(client, group, posts):
     debug_group = await C.get_entity(client, S.credential['debug_group'])
     await client.send_message(debug_group, getLink(group, posts[0]))
 
-async def logGroupPosts(client, group, group_posts):
+def logMessage(group, message, client_name):
+    if client_name != S.default_client_name:
+        client_info = 'client: %s ' % client_name
+    else:
+        client_info = ''
+    return 'id: %s %schat: %s' % (
+        str(getPeerId(message.from_id)), 
+        client_info,
+        getDisplayLink(group, message, S.groups))
+
+async def logGroupPosts(client, group, group_posts, client_name):
     for message in group_posts.messages:
         if not matchKey(message.raw_text, S.watching_keys):
             continue
@@ -65,8 +75,11 @@ async def logGroupPosts(client, group, group_posts):
         forward_group = await C.get_entity(client, S.credential['forward_group'])
         post_ids = list(getPostIds(message, group_posts.messages))
         await client.forward_messages(forward_group, post_ids, group)
-        await client.send_message(forward_group, 'id: %s chat: %s' % (
-            str(getPeerId(message.from_id)), getDisplayLink(group, message, S.groups)), 
+
+        await client.send_message(forward_group, 'id: %s %schat: %s' % (
+            str(getPeerId(message.from_id)), 
+            client_info,
+            getDisplayLink(group, message, S.groups)), 
             link_preview=False)
         S.existing.update(item_hash, 1)
 
@@ -96,7 +109,7 @@ async def process(clients):
     for gid, setting in targets:
         if setting.get('kicked'):
             continue
-        client = getClient(clients, setting)
+        client_name, client = getClient(clients, setting)
         try:
             group = await client.get_entity(gid)
         except Exception as e:
@@ -106,7 +119,7 @@ async def process(clients):
         group_posts = await client(GetHistoryRequest(peer=group, limit=10,
             offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
         if not setting.get('debug'):
-            await logGroupPosts(client, group, group_posts)
+            await logGroupPosts(client, group, group_posts, client_name)
         if (not setting.get('promoter') or not setting.get('promoting') or 
             not S.shouldSendToGroup(gid, setting)):
             continue
