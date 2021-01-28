@@ -60,7 +60,7 @@ def getLogMessage(group, message, client_name):
     if fwd_from:
         fwd_info = 'fwd_id: %d ' % fwd_from
     if client_name != S.default_client_name:
-        client_info = 'client: %s ' % client_name
+        client_info = '%s ' % client_name
     return '%s%s%schat: %s' % (
         id_info,
         fwd_info,
