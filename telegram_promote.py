@@ -144,6 +144,10 @@ async def process(clients):
                 result = await trySend(client, group, subscription, post)
                 if result:
                     return
+
+        if setting.get('subscriptions'):
+            print('nothing to promote: ' + group.title)
+
         if not setting.get('promote_messages'):
             continue
         message = S.getPromoteMessage()
