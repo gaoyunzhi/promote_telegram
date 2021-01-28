@@ -51,13 +51,19 @@ async def log(client, group, posts):
     debug_group = await C.get_entity(client, S.credential['debug_group'])
     await client.send_message(debug_group, getLink(group, posts[0]))
 
-def logMessage(group, message, client_name):
+def getLogMessage(group, message, client_name):
+    id_info, fwd_info, client_info = '', '', ''
+    msg_id = getPeerId(message.from_id)
+    if msg_id:
+        id_info = 'id: %d ' % msg_id
+    fwd_from = message.fwd_from and getPeerId(message.fwd_from.from_id)
+    if fwd_from:
+        fwd_info = 'fwd_id: %d ' % fwd_from
     if client_name != S.default_client_name:
         client_info = 'client: %s ' % client_name
-    else:
-        client_info = ''
-    return 'id: %s %schat: %s' % (
-        str(getPeerId(message.from_id)), 
+    return '%s%s%schat: %s' % (
+        id_info,
+        fwd_info,
         client_info,
         getDisplayLink(group, message, S.groups))
 
@@ -75,12 +81,8 @@ async def logGroupPosts(client, group, group_posts, client_name):
         forward_group = await C.get_entity(client, S.credential['forward_group'])
         post_ids = list(getPostIds(message, group_posts.messages))
         await client.forward_messages(forward_group, post_ids, group)
-
-        await client.send_message(forward_group, 'id: %s %schat: %s' % (
-            str(getPeerId(message.from_id)), 
-            client_info,
-            getDisplayLink(group, message, S.groups)), 
-            link_preview=False)
+        await client.send_message(forward_group, 
+            getLogMessage(group, message, client_name), link_preview=False)
         S.existing.update(item_hash, 1)
 
 async def trySend(client, group, subscription, post):
