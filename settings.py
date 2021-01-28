@@ -58,6 +58,8 @@ class Settings(object):
     def isNoForwardMessage(self, message):
         if message.from_id and getPeerId(message.from_id) in self.no_forward_ids:
             return True
+        if message.fwd_from and getPeerId(message.fwd_from.from_id) in self.no_forward_ids:
+            return True
         return False
 
     def getPromoteMessage(self):
