@@ -172,9 +172,12 @@ async def run():
     await process(clients)
     for _, client in clients.items():
         await client.disconnect()
+
+async def test():
+    client = TelegramClient('session_file_' + user, S.credential['api_id'], S.credential['api_hash'])
     
 if __name__ == "__main__":
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
-    r = loop.run_until_complete(run())
+    r = loop.run_until_complete(test())
     loop.close()
