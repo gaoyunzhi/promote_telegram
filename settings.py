@@ -68,7 +68,7 @@ class Settings(object):
         return self.promote_messages[loop_index]
 
     def matchLanguage(self, subscription, post):
-        if not S.settings.get('chinese_only').get('subscription'):
+        if not self.settings.get('chinese_only').get('subscription'):
             return True
         print('post', post)
         # return isCN(post.)
