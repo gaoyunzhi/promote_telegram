@@ -99,7 +99,7 @@
   debug: 1
   gap_hour: 0
   keys: []
-  promote_messages: 1
+  promote_messages: 0
   promoter: zhou
   promoting: 1
   subscriptions: 

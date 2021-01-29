@@ -68,11 +68,9 @@ class Settings(object):
         return self.promote_messages[loop_index]
 
     def matchLanguage(self, subscription, post):
-        if not self.settings.get('chinese_only').get('subscription'):
+        if not self.settings.get('chinese_only').get(subscription):
             return True
-        print('post', post)
-        # return isCN(post.)
-        return False
+        return isCN(post.message)
 
     async def populateIdMap(self, client, subscription):
         channel = await client.get_entity(subscription)
