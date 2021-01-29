@@ -174,10 +174,18 @@ async def run():
         await client.disconnect()
 
 async def test():
+    user = 'lani'
+    setting = S.credential['users'][user]
     client = TelegramClient('session_file_' + user, S.credential['api_id'], S.credential['api_hash'])
+    await client.start(password=setting['password'])
+    result = await client.get_dialogs()
+    for item in result:
+        if matchKey(item.name, ['书', '原']):
+            print(item)
+    await client.disconnect()
     
 if __name__ == "__main__":
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
-    r = loop.run_until_complete(test())
+    r = loop.run_until_complete(run())
     loop.close()
