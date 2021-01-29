@@ -98,13 +98,12 @@
 1199060777:
   debug: 1
   gap_hour: 0
-  keys:
-  - 美国11
-  kicked: 1
+  keys: []
   promote_messages: 1
   promoter: zhou
   promoting: 1
-  subscriptions: []
+  subscriptions: 
+  - https://t.me/twitter_translate
   title: 美国社会与政治
   username: us_society_and_politics
 1203075519:
