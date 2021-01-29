@@ -328,6 +328,7 @@
   - https://t.me/web_feed
   title: 京都风云~北京电报群
   username: jingdufengyun
+  note: 被禁言过
 1369274319:
   promoter: 0
   promoting: 0
@@ -338,6 +339,7 @@
   promoting: 1
   subscriptions:
   - https://t.me/freedom_watch
+  - https://t.me/twitter_translate
   - https://t.me/daily_feminist
   title: 民主中国
   username: minzhuziyouChina
@@ -346,6 +348,7 @@
   promoting: 1
   subscriptions:
   - https://t.me/freedom_watch
+  - https://t.me/twitter_translate
   title: 鱼与熊掌
   username: tullymonster77
 1410337085:
@@ -353,6 +356,7 @@
   promoting: 1
   subscriptions:
   - https://t.me/freedom_watch
+  - https://t.me/twitter_translate
   - https://t.me/us_watch
   title: 北美移民生活与时政
   username: discussimmigration
@@ -372,6 +376,7 @@
   promoting: 1
   subscriptions:
   - https://t.me/freedom_watch
+  - https://t.me/twitter_translate
   - https://t.me/daily_feminist
   title: 中華納稅人
   username: qiushichen
@@ -405,6 +410,7 @@
   title: EB移民申请与排期
   username: EBGreenCard
 1451962012:
+  kicked: 1
   promoter: 0
   promoting: 0
   subscriptions:
@@ -424,8 +430,10 @@
   username: TheLunarCity
   wait_minute: 10
 1453292010:
-  promoter: 0
-  promoting: 0
+  promoter: lani
+  promoting: 1
+  subscriptions:
+  - https://t.me/freedom_watch
   title: 哈哈境
 1461310717:
   invitation_link: https://t.me/joinchat/VxnU_UqM1RefsJrj
@@ -446,6 +454,7 @@
   promoting: 1
   subscriptions:
   - https://t.me/freedom_watch
+  - https://t.me/twitter_translate
   - https://t.me/daily_feminist
   title: JJhub
   username: jjhub
@@ -466,6 +475,7 @@
   promoting: 1
   subscriptions:
   - https://t.me/freedom_watch
+  - https://t.me/twitter_translate
   - https://t.me/daily_feminist
   title: 独自
 1489304512:

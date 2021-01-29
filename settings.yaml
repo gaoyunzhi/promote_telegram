@@ -107,6 +107,8 @@ id_map:
   https://t.me/useless_project_ideas: 1481629772
   https://t.me/web_feed: 1484241754
   https://t.me/womxn_union: 1471213510
+chinese_only:
+  https://t.me/twitter_translate: true
 promote_messages:
 - '#推廣 https://t.me/weibo_read'
 - '#推廣 https://t.me/douban_read'

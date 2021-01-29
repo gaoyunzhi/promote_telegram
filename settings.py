@@ -2,7 +2,7 @@ import plain_db
 import yaml
 import time
 from helper import getPeerId
-from telegram_util import matchKey
+from telegram_util import matchKey, isCN
 
 class Settings(object):
     def __init__(self):
@@ -66,6 +66,13 @@ class Settings(object):
     def getPromoteMessage(self):
         loop_index = self.message_loop.get('promote_messages', 0) % len(self.promote_messages)
         return self.promote_messages[loop_index]
+
+    def matchLanguage(self, subscription, post):
+        if not S.settings.get('chinese_only').get('subscription'):
+            return True
+        print('post', post)
+        # return isCN(post.)
+        return False
 
     async def populateIdMap(self, client, subscription):
         channel = await client.get_entity(subscription)
