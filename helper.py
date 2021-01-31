@@ -39,11 +39,8 @@ async def preProcess(clients, groups):
             continue
         except:
             ...
-        client = getClient(clients, setting)
-        try:
-            group = await client.get_entity(gid)
-        except:
-            print('telegram_promote Error preProcess group fetch fail', gid, setting)
+        _, client = getClient(clients, setting)
+        group = await client.get_entity(gid)
         if group.username:
             setting['username'] = group.username
         if 'joinchat' in str(gid):

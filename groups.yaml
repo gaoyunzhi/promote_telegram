@@ -50,18 +50,6 @@
   - https://t.me/twitter_translate
   title: 电报人(事事关心)
   username: three001
-1299974211:
-  promoter: lani
-  promoting: 1
-  subscriptions:
-  - https://t.me/freedom_watch
-  title: 原乡居士群
-1319312407:
-  promoter: lani
-  promoting: 1
-  subscriptions:
-  - https://t.me/freedom_watch
-  title: 好书分享交流组
 1150318829:
   promoter: zhou
   promoting: 1
@@ -96,14 +84,14 @@
   title: 自由广场
   username: freedom8964
 1199060777:
-  kicked: 1
   debug: 1
   gap_hour: 0
   keys: []
+  kicked: 1
   promote_messages: 0
   promoter: zhou
   promoting: 1
-  subscriptions: 
+  subscriptions:
   - https://t.me/twitter_translate
   title: 美国社会与政治
   username: us_society_and_politics
@@ -232,11 +220,6 @@
   - https://t.me/race_ethnicity
   - https://t.me/web_feed
   title: 中国自由公民党海外群
-https://t.me/UHC2020:
-  promoter: lani
-  promoting: 1
-  subscriptions:
-  - https://t.me/freedom_watch
 1274456310:
   promoter: zhou
   promoting: 1
@@ -257,7 +240,14 @@ https://t.me/UHC2020:
   - https://t.me/us_watch
   - https://t.me/daily_feminist
   title: 周周侃 苏比利奥群
+1299974211:
+  promoter: lani
+  promoting: 1
+  subscriptions:
+  - https://t.me/freedom_watch
+  title: 原乡居士群
 1302527591:
+  invitation_link: https://t.me/joinchat/INAv702i_mckmPkVnfPMOA
   promoter: lani
   promoting: 1
   subscriptions:
@@ -266,7 +256,6 @@ https://t.me/UHC2020:
   - https://t.me/daily_feminist
   - https://t.me/web_feed
   title: ETWGroup
-  invitation_link: https://t.me/joinchat/INAv702i_mckmPkVnfPMOA
 1318297666:
   kicked: 1
   promoter: 0
@@ -277,6 +266,12 @@ https://t.me/UHC2020:
   - https://t.me/web_feed
   title: 華人電報群
   username: huarendianbaoqun
+1319312407:
+  promoter: lani
+  promoting: 1
+  subscriptions:
+  - https://t.me/freedom_watch
+  title: 好书分享交流组
 1325531930:
   promoter: zhou
   promoting: 1
@@ -326,6 +321,7 @@ https://t.me/UHC2020:
   username: xinjiayuan
   wait_minute: 10
 1359450920:
+  note: 被禁言过
   promoter: 0
   promoting: 0
   subscriptions:
@@ -334,7 +330,6 @@ https://t.me/UHC2020:
   - https://t.me/web_feed
   title: 京都风云~北京电报群
   username: jingdufengyun
-  note: 被禁言过
 1369274319:
   promoter: 0
   promoting: 0
@@ -448,6 +443,13 @@ https://t.me/UHC2020:
   subscriptions:
   - https://t.me/freedom_watch
   title: 厨哥一勺烩
+1472131939:
+  promoter: lani
+  promoting: 1
+  subscriptions:
+  - https://t.me/freedom_watch
+  title: 中國人United Human of China
+  username: UHC2020
 1475291102:
   promoter: lani
   promoting: 1
