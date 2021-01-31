@@ -74,6 +74,9 @@ class Settings(object):
             return True
         return isCN(post.message)
 
+    def shouldExclude(self, post):
+        return matchKey(str(post), ['关于评论区'])
+
     async def populateIdMap(self, client, subscription):
         channel = await client.get_entity(subscription)
         self.settings['id_map'][subscription] = channel.id

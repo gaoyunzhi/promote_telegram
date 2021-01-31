@@ -95,6 +95,8 @@ async def trySend(client, group, subscription, post):
         return
     if not S.matchLanguage(subscription, post):
         return
+    if S.shouldExclude(post):
+        return
     post_ids = list(getPostIds(post, C.getPostsCached(subscription)))
     channel = await C.getChannel(client, subscription, S)
     try:
