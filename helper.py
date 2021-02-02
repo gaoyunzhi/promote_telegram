@@ -1,4 +1,5 @@
 import yaml
+from telethon.tl.functions.messages import GetHistoryRequest
 
 def getClient(clients, setting):
     client_name = setting.get('promoter') or next(iter(clients.keys()))
@@ -32,17 +33,22 @@ def getPeerId(peer_id):
         except:
             ...
 
-async def addMute(client, mute_channel_id, S):
-    channel = await client.get_entity(gid)
+async def addMute(client, S):
+    channel = await client.get_entity(S.mute_channel_id)
     group_posts = await client(GetHistoryRequest(peer=group, limit=30,
             offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
+    count = 0
     for message in group_posts.messages:
         try:
             mute_id = int(message.raw_text)
         except:
             continue
-
-
+        if mute_id not in S.no_forward_ids:
+            S.no_forward_ids.append(mute_id)
+            count += 1
+    S.save()
+    if count: 
+        await client.send_message(channel, 'mute id added: ' + str(count))
 
 async def preProcess(clients, groups):
     for gid, setting in list(groups.items()):

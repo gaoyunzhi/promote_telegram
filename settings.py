@@ -81,5 +81,8 @@ class Settings(object):
     async def populateIdMap(self, client, subscription):
         channel = await client.get_entity(subscription)
         self.settings['id_map'][subscription] = channel.id
+        self.save()
+
+    def save(self):
         with open('settings.yaml', 'w') as f:
             f.write(yaml.dump(self.settings, sort_keys=True, indent=2, allow_unicode=True))

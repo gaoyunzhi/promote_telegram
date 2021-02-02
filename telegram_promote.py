@@ -172,7 +172,7 @@ async def run():
         await client.start(password=setting['password'])
         clients[user] = client
         await client.get_dialogs()
-    await addMute(clients[S.default_client_name], S.mute_channel)
+    await addMute(clients[S.default_client_name], S)
     await preProcess(clients, S.groups)
     await process(clients)
     for _, client in clients.items():
