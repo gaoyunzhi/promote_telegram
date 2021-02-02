@@ -20,6 +20,7 @@ class Settings(object):
         self.watching_keys = self.settings.get('watching_keys')
         self.block_keys = self.settings.get('block_keys')
         self.block_ids = self.settings.get('block_ids')
+        self.mute_channel_id = self.settings.get('mute_channel_id')
         self.no_forward_ids = self.settings.get('no_forward_ids')
         self.default_client_name = self.settings.get('default_client_name')
         self.promote_user_ids = [item['id'] for item in self.credential['users'].values()]

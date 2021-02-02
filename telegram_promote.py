@@ -11,7 +11,7 @@ import random
 from telegram_util import matchKey
 from settings import Settings
 from cache import Cache
-from helper import getClient, preProcess, getPostIds, getPeerId, getDisplayLink, getLink
+from helper import getClient, addMute, preProcess, getPostIds, getPeerId, getDisplayLink, getLink
 
 S = Settings()
 C = Cache()
@@ -172,6 +172,7 @@ async def run():
         await client.start(password=setting['password'])
         clients[user] = client
         await client.get_dialogs()
+    await addMute(clients[S.default_client_name], S.mute_channel)
     await preProcess(clients, S.groups)
     await process(clients)
     for _, client in clients.items():
