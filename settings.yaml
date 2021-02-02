@@ -1,3 +1,47 @@
+block_ids:
+- 1376838766
+- 1476487693
+- 1323322983
+- 652105646
+- 771096498
+- 697238845
+- 844396960
+- 521358914
+- 771096498
+- 609517172
+- 1180078433
+- 1127106087
+- 1116700493
+- 1323634987
+- 1421003834
+- 1197888016
+- 225090275
+- 1468243631
+- 1217265660
+- 456430966
+block_keys:
+- 希望之声
+- 希望之聲
+- 真识
+- 自由之聲
+- 自由之声
+- 罗莉幼女
+- 天亮时分
+chinese_only:
+  https://t.me/twitter_translate: true
+default_client_name: lani
+id_map:
+  https://t.me/bay_area_community: 1280089460
+  https://t.me/daily_feminist: 1474132510
+  https://t.me/freedom_watch: 1286091818
+  https://t.me/labor_one: 1427773894
+  https://t.me/people_sing: 1369140206
+  https://t.me/race_ethnicity: 1237640500
+  https://t.me/twitter_translate: 1374186417
+  https://t.me/us_watch: 1370746032
+  https://t.me/useless_project_ideas: 1481629772
+  https://t.me/web_feed: 1484241754
+  https://t.me/womxn_union: 1471213510
 mute_channel_id: 1416647395
 no_forward_ids:
 - 1233411028
@@ -93,50 +137,7 @@ no_forward_ids:
 - 881931057
 - 1429307628
 - 1216884661
-block_ids:
-- 1376838766
-- 1476487693
-- 1323322983
-- 652105646
-- 771096498
-- 697238845
-- 844396960
-- 521358914
-- 771096498
-- 609517172
-- 1180078433
-- 1127106087
-- 1116700493
-- 1323634987
-- 1421003834
-- 1197888016
-- 225090275
-- 1468243631
-- 1217265660
-- 456430966
-block_keys:
-- 希望之声
-- 希望之聲
-- 真识
-- 自由之聲
-- 自由之声
-- 罗莉幼女
-- 天亮时分
-chinese_only:
-  https://t.me/twitter_translate: true
-default_client_name: lani
-id_map:
-  https://t.me/bay_area_community: 1280089460
-  https://t.me/daily_feminist: 1474132510
-  https://t.me/freedom_watch: 1286091818
-  https://t.me/labor_one: 1427773894
-  https://t.me/people_sing: 1369140206
-  https://t.me/race_ethnicity: 1237640500
-  https://t.me/twitter_translate: 1374186417
-  https://t.me/us_watch: 1370746032
-  https://t.me/useless_project_ideas: 1481629772
-  https://t.me/web_feed: 1484241754
-  https://t.me/womxn_union: 1471213510
+- 1341797584
 promote_messages:
 - '#推廣 https://t.me/weibo_read'
 - '#推廣 https://t.me/douban_read'
