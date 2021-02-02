@@ -35,7 +35,7 @@ def getPeerId(peer_id):
 
 async def addMute(client, S):
     channel = await client.get_entity(S.mute_channel_id)
-    group_posts = await client(GetHistoryRequest(peer=group, limit=30,
+    group_posts = await client(GetHistoryRequest(peer=channel, limit=30,
             offset_date=None, offset_id=0, max_id=0, min_id=0, add_offset=0, hash=0))
     count = 0
     for message in group_posts.messages:
