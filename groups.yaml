@@ -57,6 +57,17 @@
   - https://t.me/twitter_translate
   title: 电报人(事事关心)
   username: three001
+1131653438:
+  gap_hour: 2
+  promoter: lani
+  promoting: 1
+  subscriptions:
+  - https://t.me/freedom_watch
+  - https://t.me/twitter_translate
+  - https://t.me/race_ethnicity
+  - https://t.me/web_feed
+  title: 电报时报互喷群
+  username: Freedomisthebest
 1150318829:
   promoter: zhou
   promoting: 1
@@ -148,10 +159,15 @@
   title: 陸港台討論區MHKTW forum
   username: demoforum2412
 1237001036:
-  promoter: 0
-  promoting: 0
+  promoter: lani
+  promoting: 1
   title: 数字移民讨论群
   username: shuziyimin_forum
+  keys:
+  - 移民
+  subscriptions:
+  - https://t.me/useless_project_ideas
+  - https://t.me/freedom_watch
 1239301596:
   promote_messages: 1
   promoter: zhou
@@ -408,6 +424,7 @@
   title: 新思潮新人民
   username: XinsiChao
 1447565367:
+  kicked: 1
   promoter: wuish
   promoting: 1
   subscriptions:
@@ -494,6 +511,7 @@
 1485552366:
   invitation_link: https://t.me/joinchat/WIu67hlzFM1l-ARP
   kicked: 1
+  note: 其实没有被kick，但群里蛆味逼人
   promoter: 0
   promoting: 0
   subscriptions:
@@ -501,7 +519,6 @@
   - https://t.me/twitter_translate
   - https://t.me/daily_feminist
   title: 独自
-  note: 其实没有被kick，但群里蛆味逼人
 1489304512:
   kicked: 1
   promoter: 0
