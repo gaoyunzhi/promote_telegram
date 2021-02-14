@@ -226,10 +226,10 @@
   promoter: lani
   promoting: 1
   subscriptions:
-  - https://t.me/twitter_translate
-  - https://t.me/us_watch
   - https://t.me/freedom_watch
   - https://t.me/race_ethnicity
+  - https://t.me/twitter_translate
+  - https://t.me/us_watch
   - https://t.me/web_feed
   title: 中国自由公民党海外群
 1274456310:
@@ -493,13 +493,15 @@
   username: InsultingEmpire
 1485552366:
   invitation_link: https://t.me/joinchat/WIu67hlzFM1l-ARP
-  promoter: lani
-  promoting: 1
+  kicked: 1
+  promoter: 0
+  promoting: 0
   subscriptions:
   - https://t.me/freedom_watch
   - https://t.me/twitter_translate
   - https://t.me/daily_feminist
   title: 独自
+  note: 其实没有被kick，但群里蛆味逼人
 1489304512:
   kicked: 1
   promoter: 0
