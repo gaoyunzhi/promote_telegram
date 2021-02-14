@@ -425,8 +425,8 @@
   username: XinsiChao
 1447565367:
   kicked: 1
-  promoter: wuish
-  promoting: 1
+  promoter: 0
+  promoting: 0
   subscriptions:
   - https://t.me/labor_one
   title: 中國工黨-Labour Party Of China
@@ -489,8 +489,9 @@
   title: 菟國第四帝國
   username: ttsmrgroup
 1482571409:
-  promoter: wuish
-  promoting: 1
+  kicked: 1
+  promoter: 0
+  promoting: 0
   subscriptions:
   - https://t.me/freedom_watch
   - https://t.me/twitter_translate
