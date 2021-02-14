@@ -158,16 +158,24 @@
   promoting: 0
   title: 陸港台討論區MHKTW forum
   username: demoforum2412
-1237001036:
+1236512111:
+  invitation_link: https://t.me/joinchat/SbOtbzb5DYHx76Xs
   promoter: lani
   promoting: 1
-  title: 数字移民讨论群
-  username: shuziyimin_forum
+  subscriptions:
+  - https://t.me/freedom_watch
+  - https://t.me/twitter_translate
+  title: 𓂀言论自由，电报小窝🇨🇳
+1237001036:
   keys:
   - 移民
+  promoter: lani
+  promoting: 1
   subscriptions:
   - https://t.me/useless_project_ideas
   - https://t.me/freedom_watch
+  title: 数字移民讨论群
+  username: shuziyimin_forum
 1239301596:
   promote_messages: 1
   promoter: zhou
