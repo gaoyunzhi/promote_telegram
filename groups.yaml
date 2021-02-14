@@ -485,7 +485,9 @@
 1472131939:
   promoter: cat
   promoting: 1
+  gap_hour: 2
   subscriptions:
+  - https://t.me/twitter_translate
   - https://t.me/freedom_watch
   title: 中國人United Human of China
   username: UHC2020
