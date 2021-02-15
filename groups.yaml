@@ -184,8 +184,9 @@
   title: Telegram 群組推廣
   username: tgroupsforzh
 1240493127:
-  promoter: wuish
-  promoting: 1
+  kicked: 1
+  promoter: 0
+  promoting: 0
   subscriptions:
   - https://t.me/freedom_watch
   - https://t.me/twitter_translate
