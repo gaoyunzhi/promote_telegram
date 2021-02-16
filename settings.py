@@ -16,7 +16,7 @@ class Settings(object):
             self.settings = yaml.load(f, Loader=yaml.FullLoader)
         with open('groups.yaml') as f:
             self.groups = yaml.load(f, Loader=yaml.FullLoader)
-        self._populateSubscription()
+        self.all_subscriptions = self.settings.get('all_subscriptions')
         self.watching_keys = self.settings.get('watching_keys')
         self.block_keys = self.settings.get('block_keys')
         self.block_ids = self.settings.get('block_ids')
@@ -34,13 +34,6 @@ class Settings(object):
             self.group_log[target] = max(self.group_log.get(target, 0), value)
             message = key[len(target) + 1:]
             self.message_log[message] = max(self.message_log.get(message, 0), value)
-
-    def _populateSubscription(self):
-        self.all_subscriptions = set()
-        for _, setting in self.groups.items():
-            for subscription in setting.get('subscriptions', []):
-                self.all_subscriptions.add(subscription)
-        print('\n'.join(self.all_subscriptions))
 
     def shouldSendToGroup(self, gid, setting):
         if time.time() - self.group_log.get(str(gid), 0) < setting.get('gap_hour', 5) * 60 * 60:

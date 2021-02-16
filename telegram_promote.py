@@ -136,6 +136,7 @@ async def process(clients):
             for subscription in S.all_subscriptions:
                 posts = await C.getPosts(client, subscription, S)
                 for post in posts:
+                    print(post)
                     if not matchKey(post.raw_text, setting.get('keys')):
                         continue
                     result = await trySend(client, group, subscription, post)
