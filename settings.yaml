@@ -55,17 +55,27 @@ chinese_only:
   https://t.me/twitter_translate: true
 default_client_name: lani
 id_map:
+  https://t.me/atheism_discuss: 1453460651
   https://t.me/bay_area_community: 1280089460
   https://t.me/daily_feminist: 1474132510
+  https://t.me/douban_read: 1206770471
+  https://t.me/dushufenxiang: 1445981123
   https://t.me/freedom_watch: 1286091818
   https://t.me/labor_one: 1427773894
+  https://t.me/life_with_disabilities: 1161895837
+  https://t.me/magazine_read: 1436706126
+  https://t.me/one_green_planet: 1331886734
   https://t.me/people_sing: 1369140206
+  https://t.me/poem_and_art: 1384470139
   https://t.me/queer_liberation: 1347182577
   https://t.me/race_ethnicity: 1237640500
+  https://t.me/south_alliance: 1311057389
   https://t.me/twitter_translate: 1374186417
   https://t.me/us_watch: 1370746032
   https://t.me/useless_project_ideas: 1481629772
   https://t.me/web_feed: 1484241754
+  https://t.me/weibo_one: 1340272388
+  https://t.me/weibo_read: 1374366482
   https://t.me/womxn_union: 1471213510
 mute_channel_id: 1416647395
 no_forward_ids:
