@@ -40,6 +40,7 @@ class Settings(object):
         for _, setting in self.groups.items():
             for subscription in setting.get('subscriptions', []):
                 self.all_subscriptions.add(subscription)
+        print('\n'.join(self.all_subscriptions))
 
     def shouldSendToGroup(self, gid, setting):
         if time.time() - self.group_log.get(str(gid), 0) < setting.get('gap_hour', 5) * 60 * 60:
