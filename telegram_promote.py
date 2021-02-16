@@ -136,7 +136,6 @@ async def process(clients):
             for subscription in S.all_subscriptions:
                 posts = await C.getPosts(client, subscription, S)
                 for post in posts:
-                    print(post)
                     if not matchKey(post.raw_text, setting.get('keys')):
                         continue
                     result = await trySend(client, group, subscription, post)
@@ -170,7 +169,7 @@ async def run():
     clients = {}
     for user, setting in S.credential['users'].items():
         client = TelegramClient('session_file_' + user, S.credential['api_id'], S.credential['api_hash'])
-        await client.start(password=setting['password'])
+        await client.start(password=setting.get('password'))
         clients[user] = client
         await client.get_dialogs()
     await addMute(clients[S.default_client_name], S)
@@ -183,7 +182,7 @@ async def test():
     user = 'lani'
     setting = S.credential['users'][user]
     client = TelegramClient('session_file_' + user, S.credential['api_id'], S.credential['api_hash'])
-    await client.start(password=setting['password'])
+    await client.start(password=setting.get('password'))
     result = await client.get_dialogs()
     for item in result:
         if matchKey(item.name, ['书', '原']):
