@@ -288,8 +288,9 @@
   title: 原乡居士群
 1302527591:
   invitation_link: https://t.me/joinchat/INAv702i_mckmPkVnfPMOA
-  promoter: lani
-  promoting: 1
+  promoter: 0
+  promoting: 0
+  kicked: 1
   subscriptions:
   - https://t.me/freedom_watch
   - https://t.me/daily_feminist
