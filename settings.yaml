@@ -5,7 +5,7 @@ all_subscriptions:
 - https://t.me/twitter_translate
 - https://t.me/race_ethnicity
 - https://t.me/bay_area_community
-- https://t.me/womxn_union
+- https://t.me/women_united
 - https://t.me/useless_project_ideas
 - https://t.me/labor_one
 - https://t.me/daily_feminist
@@ -76,7 +76,7 @@ id_map:
   https://t.me/web_feed: 1484241754
   https://t.me/weibo_one: 1340272388
   https://t.me/weibo_read: 1374366482
-  https://t.me/womxn_union: 1471213510
+  https://t.me/women_united: 1471213510
 mute_channel_id: 1416647395
 no_forward_ids:
 - 1233411028
