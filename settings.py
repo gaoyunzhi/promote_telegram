@@ -36,7 +36,7 @@ class Settings(object):
             self.message_log[message] = max(self.message_log.get(message, 0), value)
 
     def shouldSendToGroup(self, gid, setting):
-        if time.time() - self.group_log.get(str(gid), 0) < setting.get('gap_hour', 5) * 60 * 60:
+        if time.time() - self.group_log.get(str(gid), 0) < setting.get('gap_hour', 12) * 60 * 60:
             return False
         if not self.added_time.get(gid):
             self.added_time.update(gid, int(time.time()))
