@@ -146,6 +146,7 @@
 1213688163:
   promoter: zhou
   promoting: 1
+  gap_hour: 20
   subscriptions:
   - https://t.me/freedom_watch
   - https://t.me/twitter_translate
