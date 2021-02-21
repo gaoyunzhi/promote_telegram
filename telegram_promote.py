@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 from telethon import TelegramClient
-from telethon.tl.functions.messages import GetHistoryRequest
+from telethon.tl.functions.messages import GetHistoryRequest, SearchRequest
+from telethon.tl.types import InputMessagesFilterEmpty
 import asyncio
 from datetime import datetime
 import time
@@ -187,10 +188,24 @@ async def test():
     for item in result:
         if matchKey(item.name, ['书', '原']):
             print(item)
+    filter = InputMessagesFilterEmpty()
+    result = client(SearchRequest(
+        peer=peer,      # On which chat/conversation
+        q='query',      # What to search for
+        filter=filter,  # Filter to use (maybe filter for media)
+        min_date=None,  # Minimum date
+        max_date=None,  # Maximum date
+        offset_id=0,    # ID of the message to use as offset
+        add_offset=0,   # Additional offset
+        limit=10,       # How many results
+        max_id=0,       # Maximum message ID
+        min_id=0,       # Minimum message ID
+        from_id=None    # Who must have sent the message (peer)
+    ))
     await client.disconnect()
     
 if __name__ == "__main__":
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
-    r = loop.run_until_complete(run())
+    r = loop.run_until_complete(test())
     loop.close()
