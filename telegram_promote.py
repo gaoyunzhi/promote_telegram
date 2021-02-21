@@ -185,23 +185,27 @@ async def test():
     client = TelegramClient('session_file_' + user, S.credential['api_id'], S.credential['api_hash'])
     await client.start(password=setting.get('password'))
     result = await client.get_dialogs()
-    for item in result:
-        if matchKey(item.name, ['书', '原']):
-            print(item)
-    filter = InputMessagesFilterEmpty()
-    result = client(SearchRequest(
-        peer=peer,      # On which chat/conversation
-        q='query',      # What to search for
-        filter=filter,  # Filter to use (maybe filter for media)
-        min_date=None,  # Minimum date
-        max_date=None,  # Maximum date
-        offset_id=0,    # ID of the message to use as offset
-        add_offset=0,   # Additional offset
-        limit=10,       # How many results
-        max_id=0,       # Maximum message ID
-        min_id=0,       # Minimum message ID
-        from_id=None    # Who must have sent the message (peer)
-    ))
+    user = await client.get_entity(1697697709)
+    print(user)
+    for item in result[:10]:
+        print(item.id)
+        group = await client.get_entity(item.id)
+        print(group.title)
+        filter = InputMessagesFilterEmpty()
+        result = await client(SearchRequest(
+            peer=group,     # On which chat/conversation
+            q='',           # What to search for
+            filter=filter,  # Filter to use (maybe filter for media)
+            min_date=None,  # Minimum date
+            max_date=None,  # Maximum date
+            offset_id=0,    # ID of the message to use as offset
+            add_offset=0,   # Additional offset
+            limit=10,       # How many results
+            max_id=0,       # Maximum message ID
+            min_id=0,       # Minimum message ID
+            from_id=user
+        ))
+        print(result)
     await client.disconnect()
     
 if __name__ == "__main__":
