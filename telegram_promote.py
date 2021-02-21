@@ -179,6 +179,15 @@ async def run():
     for _, client in clients.items():
         await client.disconnect()
 
+def passFilter(text):
+    if not text:
+        return False
+    if '堕胎' in text:
+        return True
+    if '国' in text and '女' in text:
+        return True
+    return False
+
 async def test():
     user = 'lani'
     setting = S.credential['users'][user]
@@ -186,11 +195,8 @@ async def test():
     await client.start(password=setting.get('password'))
     result = await client.get_dialogs()
     user = await client.get_entity(1697697709)
-    print(user)
-    for item in result[:10]:
-        print(item.id)
+    for item in result:
         group = await client.get_entity(item.id)
-        print(group.title)
         filter = InputMessagesFilterEmpty()
         try:
             result = await client(SearchRequest(
@@ -201,7 +207,7 @@ async def test():
                 max_date=None,  # Maximum date
                 offset_id=0,    # ID of the message to use as offset
                 add_offset=0,   # Additional offset
-                limit=10,       # How many results
+                limit=1,       # How many results
                 max_id=0,       # Maximum message ID
                 min_id=0,       # Minimum message ID
                 from_id=user,
@@ -209,8 +215,15 @@ async def test():
             ))
         except:
             continue
-        result.
-        print(result)
+        username = None
+        try:
+            username = group.username
+        except:
+            ...
+        print(group.title, username, len(result.messages))
+        for message in result.messages:
+            if passFilter(message.raw_text):
+                print(getLink(group, message), message.raw_text[:30].replace('\n', ' '))
     await client.disconnect()
     
 if __name__ == "__main__":
