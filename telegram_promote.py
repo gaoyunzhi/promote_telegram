@@ -180,13 +180,14 @@ async def run():
         await client.disconnect()
 
 def passFilter(text):
-    if not text:
-        return False
-    if '堕胎' in text:
-        return True
-    if '国' in text and '女' in text:
-        return True
-    return False
+    return True
+    # if not text:
+    #     return False
+    # if '堕胎' in text:
+    #     return True
+    # if '国' in text and '女' in text:
+    #     return True
+    # return False
 
 async def test():
     user = 'lani'
@@ -194,7 +195,7 @@ async def test():
     client = TelegramClient('session_file_' + user, S.credential['api_id'], S.credential['api_hash'])
     await client.start(password=setting.get('password'))
     result = await client.get_dialogs()
-    user = await client.get_entity(1697697709)
+    user = await client.get_entity(1331301717)
     for item in result:
         group = await client.get_entity(item.id)
         filter = InputMessagesFilterEmpty()
@@ -220,7 +221,6 @@ async def test():
             username = group.username
         except:
             ...
-        print(group.title, username, len(result.messages))
         for message in result.messages:
             if passFilter(message.raw_text):
                 print(getLink(group, message), message.raw_text[:30].replace('\n', ' '))
@@ -229,5 +229,5 @@ async def test():
 if __name__ == "__main__":
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
-    r = loop.run_until_complete(run())
+    r = loop.run_until_complete(test())
     loop.close()
