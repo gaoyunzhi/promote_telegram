@@ -192,19 +192,24 @@ async def test():
         group = await client.get_entity(item.id)
         print(group.title)
         filter = InputMessagesFilterEmpty()
-        result = await client(SearchRequest(
-            peer=group,     # On which chat/conversation
-            q='',           # What to search for
-            filter=filter,  # Filter to use (maybe filter for media)
-            min_date=None,  # Minimum date
-            max_date=None,  # Maximum date
-            offset_id=0,    # ID of the message to use as offset
-            add_offset=0,   # Additional offset
-            limit=10,       # How many results
-            max_id=0,       # Maximum message ID
-            min_id=0,       # Minimum message ID
-            from_id=user
-        ))
+        try:
+            result = await client(SearchRequest(
+                peer=group,     # On which chat/conversation
+                q='',           # What to search for
+                filter=filter,  # Filter to use (maybe filter for media)
+                min_date=None,  # Minimum date
+                max_date=None,  # Maximum date
+                offset_id=0,    # ID of the message to use as offset
+                add_offset=0,   # Additional offset
+                limit=10,       # How many results
+                max_id=0,       # Maximum message ID
+                min_id=0,       # Minimum message ID
+                from_id=user,
+                hash=0
+            ))
+        except:
+            continue
+        result.
         print(result)
     await client.disconnect()
     
