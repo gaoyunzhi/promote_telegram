@@ -103,14 +103,14 @@
   title: 自由广场
   username: freedom8964
 1199060777:
-  debug: 1
-  kicked: 1
-  gap_hour: 0
+  debug: 0
+  kicked: 0
+  gap_hour: 2
   keys: []
   kicked: 0
   promote_messages: 0
   promoter: zhou
-  promoting: 0
+  promoting: 1
   subscriptions:
   - https://t.me/twitter_translate
   title: 美国社会与政治
