@@ -107,10 +107,10 @@
   kicked: 0
   gap_hour: 2
   keys: []
-  kicked: 0
+  kicked: 1
   promote_messages: 0
-  promoter: zhou
-  promoting: 1
+  promoter: 0
+  promoting: 0
   subscriptions:
   - https://t.me/twitter_translate
   title: 美国社会与政治
