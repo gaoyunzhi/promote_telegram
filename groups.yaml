@@ -104,7 +104,6 @@
   username: freedom8964
 1199060777:
   debug: 0
-  kicked: 0
   gap_hour: 2
   keys: []
   kicked: 1
@@ -145,9 +144,9 @@
   title: 流浪防区 /r/China_irl
   username: China_irl
 1213688163:
+  gap_hour: 20
   promoter: zhou
   promoting: 1
-  gap_hour: 20
   subscriptions:
   - https://t.me/freedom_watch
   - https://t.me/twitter_translate
@@ -162,8 +161,8 @@
   title: 陸港台討論區MHKTW forum
   username: demoforum2412
 1236512111:
-  kicked: 1
   invitation_link: https://t.me/joinchat/SbOtbzb5DYHx76Xs
+  kicked: 1
   promoter: lani
   promoting: 1
   subscriptions:
@@ -243,12 +242,12 @@
   title: 弦子和她的朋友们
   username: Xianzihetadepengyoumen
 1261937842:
+  invitation_link: https://t.me/joinchat/SzekslVHN990t1Mb
+  keys:
+  - 加拿大
   promoter: lani
   promoting: 1
   title: Map to Canada
-  invitation_link: https://t.me/joinchat/SzekslVHN990t1Mb
-  keys: 
-  - 加拿大
 1266495919:
   promoter: 0
   promoting: 0
@@ -293,9 +292,9 @@
   title: 原乡居士群
 1302527591:
   invitation_link: https://t.me/joinchat/INAv702i_mckmPkVnfPMOA
+  kicked: 1
   promoter: 0
   promoting: 0
-  kicked: 1
   subscriptions:
   - https://t.me/freedom_watch
   - https://t.me/daily_feminist
@@ -346,6 +345,11 @@
   - https://t.me/bay_area_community
   - https://t.me/web_feed
   title: Asian Americans ❤️ communities
+1338699391:
+  invitation_link: https://t.me/joinchat/DEYNlGLNESZmM2Qx
+  promoter: 0
+  promoting: 0
+  title: Nevertheless, she persisted.
 1338700807:
   kicked: 1
   promoter: 0
@@ -484,10 +488,10 @@
   - https://t.me/twitter_translate
   title: 哈哈境
 1461310717:
+  gap_hour: 2
   invitation_link: https://t.me/joinchat/VxnU_UqM1RefsJrj
   promoter: lani
   promoting: 1
-  gap_hour: 2
   subscriptions:
   - https://t.me/twitter_translate
   - https://t.me/freedom_watch
@@ -495,9 +499,9 @@
   - https://t.me/people_sing
   title: 厨哥一勺烩
 1472131939:
+  gap_hour: 2
   promoter: cat
   promoting: 1
-  gap_hour: 2
   subscriptions:
   - https://t.me/twitter_translate
   - https://t.me/freedom_watch
