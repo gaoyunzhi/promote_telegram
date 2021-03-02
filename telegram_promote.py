@@ -189,7 +189,29 @@ def passFilter(text):
     #     return True
     # return False
 
-async def test():
+async def dialogs():
+    user = 'lani'
+    setting = S.credential['users'][user]
+    client = TelegramClient('session_file_' + user, S.credential['api_id'], S.credential['api_hash'])
+    await client.start(password=setting.get('password'))
+    result = await client.get_dialogs()
+    for group in result:
+        try:
+            group.participants_count
+        except:
+            print(group)
+            continue
+        if group.participants_count < 200 or group.id in S.groups.keys():
+            continue
+        username = None
+        try:
+            username = group.username
+        except:
+            ...
+        print(group.title, group.id, username)
+    await client.disconnect()
+
+async def search():
     user = 'lani'
     setting = S.credential['users'][user]
     client = TelegramClient('session_file_' + user, S.credential['api_id'], S.credential['api_hash'])
@@ -229,5 +251,5 @@ async def test():
 if __name__ == "__main__":
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
-    r = loop.run_until_complete(run())
+    r = loop.run_until_complete(dialogs())
     loop.close()
