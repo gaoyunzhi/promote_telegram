@@ -204,7 +204,7 @@ async def dialogs():
             continue
         username = None
         try:
-            username = group.username
+            username = group.entity.username
         except:
             ...
         print(group.title, group.id, username)
@@ -250,5 +250,5 @@ async def search():
 if __name__ == "__main__":
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
-    r = loop.run_until_complete(dialogs())
+    r = loop.run_until_complete(run())
     loop.close()
