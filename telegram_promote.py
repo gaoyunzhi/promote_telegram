@@ -197,11 +197,10 @@ async def dialogs():
     result = await client.get_dialogs()
     for group in result:
         try:
-            group.participants_count
+            group.entity.participants_count
         except:
-            print(group)
             continue
-        if group.participants_count < 200 or group.id in S.groups.keys():
+        if 0 < group.entity.participants_count < 200 or group.entity.id in S.groups.keys():
             continue
         username = None
         try:
