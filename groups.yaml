@@ -186,8 +186,9 @@
 1237001036:
   keys:
   - 移民
-  promoter: lani
-  promoting: 1
+  promoter: 0
+  promoting: 0
+  kicked: 1
   subscriptions:
   - https://t.me/useless_project_ideas
   - https://t.me/freedom_watch
