@@ -350,6 +350,8 @@ no_forward_ids:
 - 1168102635
 - 1394935666
 - 1118055628
+- 467138889
+- 1668631097
 promote_messages:
 - '#推廣 https://t.me/weibo_read'
 - '#推廣 https://t.me/douban_read'
@@ -407,3 +409,4 @@ watching_keys:
 - 推荐
 - clubhouse
 - 声东击西
+- 妇女
