@@ -118,7 +118,7 @@
   username: Teahouse2nd
 1199060777:
   debug: 0
-  gap_hour: 2
+  gap_hour: 0
   keys: []
   kicked: 1
   promote_messages: 0
