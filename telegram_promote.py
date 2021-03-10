@@ -100,6 +100,7 @@ async def trySend(client, group, subscription, post):
         return
     post_ids = list(getPostIds(post, C.getPostsCached(subscription)))
     channel = await C.getChannel(client, subscription, S)
+    S.existing.update(item_hash, -1)
     try:
         results = await client.forward_messages(group, post_ids, channel)
     except Exception as e:
