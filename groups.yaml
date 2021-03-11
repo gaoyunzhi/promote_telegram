@@ -5,16 +5,6 @@
   promoting: 1
   title: 群組導航 - 分享/推廣
   username: navi_group_share
-https://t.me/joinchat/WUogKF5Zm_aegbO2:
-  kicked: 0
-  promoter: lani
-  promoting: 1
-  keys:
-  - 疫情
-  - 新冠
-  - 肺炎
-  - covid
-  - corona
 1083906692:
   kicked: 1
   promoter: 0
@@ -106,7 +96,8 @@ https://t.me/joinchat/WUogKF5Zm_aegbO2:
   promoter: zhou
   promoting: 1
   subscriptions:
-  - https://t.me/web_feed
+  - https://t.me/freedom_watch
+  - https://t.me/twitter_translate
   title: ♥️上海频道电报讨论組Shanghai魔都電報群
   username: shanghai88877
 1174356589:
@@ -196,9 +187,9 @@ https://t.me/joinchat/WUogKF5Zm_aegbO2:
 1237001036:
   keys:
   - 移民
+  kicked: 1
   promoter: 0
   promoting: 0
-  kicked: 1
   subscriptions:
   - https://t.me/useless_project_ideas
   - https://t.me/freedom_watch
@@ -615,3 +606,15 @@ https://t.me/joinchat/WUogKF5Zm_aegbO2:
   - https://t.me/web_feed
   title: 美人花🌼社区
   username: talktalk8
+1498030120:
+  invitation_link: https://t.me/joinchat/WUogKF5Zm_aegbO2
+  keys:
+  - 疫情
+  - 新冠
+  - 肺炎
+  - covid
+  - corona
+  kicked: 0
+  promoter: lani
+  promoting: 1
+  title: COVID-19 疫情新闻播报
