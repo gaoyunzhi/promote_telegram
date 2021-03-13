@@ -70,7 +70,9 @@ class Settings(object):
         return isCN(post.message)
 
     def shouldExclude(self, post):
-        return matchKey(str(post), ['关于评论区', '多莉·帕顿', '我将大声疾呼女权主义重要性'])
+        return matchKey(str(post), ['关于评论区', 
+            '多莉·帕顿', '我将大声疾呼女权主义重要性',
+            '自己穿上假屌', '假屌是可拆卸'])
 
     async def populateIdMap(self, client, subscription):
         channel = await client.get_entity(subscription)
